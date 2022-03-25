@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.03.22 at 17:37:43 CET" saveUser="constantin">
+  <Conditions>
+    <Condition uId="11443124863866955">
+      <Title language="English" value="State"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16479527582200958">
+          <Symbol language="English" value="I"/>
+          <Title language="English" value="Initialise"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479527582220960">
+          <Symbol language="English" value="PI"/>
+          <Title language="English" value="Process Images"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+    </Condition>
+    <Condition uId="16479528880601257">
+      <Title language="English" value="next image element exists"/>
+    </Condition>
+    <Condition uId="16479662261453274">
+      <Title language="English" value="is image to ignore"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16479664530773644">
+          <Symbol language="English" value="001"/>
+          <Title language="English" value="Images/Theme/LF/previous.gif"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479665888014773">
+          <Symbol language="English" value="002"/>
+          <Title language="English" value="Images/Theme/LF/next_disabled2.gif"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479666207935362">
+          <Symbol language="English" value="003"/>
+          <Title language="English" value="Images/Theme/LF/next.gif"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479669636255987">
+          <Symbol language="English" value="004"/>
+          <Title language="English" value="Images/Theme/LF/previous_disabled2.gif"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479670499296649">
+          <Symbol language="English" value="005"/>
+          <Title language="English" value="button.gif"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479664530793646">
+          <Symbol language="English" value="*"/>
+          <Title language="English" value="Accept"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Condition>
+    <Condition uId="16479531818491336">
+      <Title language="English" value="exists entry in zip file"/>
+    </Condition>
+    <Condition uId="16479528003360997">
+      <Title language="English" value="Exist image directory"/>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="16479532402421431">
+      <Title language="English" value="Error"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479532481181606">
+          <Symbol language="English" value="IM"/>
+          <Title language="English" value="Image missing"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="11443124863976962">
+      <Title language="English" value="create image directory"/>
+    </Action>
+    <Action uId="16479532201791343">
+      <Title language="English" value="save image to image directory"/>
+    </Action>
+    <Action uId="16479652475463155">
+      <Title language="English" value="select all image elements"/>
+    </Action>
+    <Action uId="11443124877466972">
+      <Title language="English" value="State"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479528372471079">
+          <Symbol language="English" value="PI"/>
+          <Title language="English" value="Process Images"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479527366140890">
+          <Symbol language="English" value="E"/>
+          <Title language="English" value="Exit"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+  </Actions>
+  <Rules lastId="33">
+    <Rule id="19">
+      <ConditionOccurrenceLink link="16479527582200958"/>
+      <ActionLink link="16479652475463155"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+    </Rule>
+    <Rule id="26">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+      <ConditionOccurrenceLink link="16479664530773644"/>
+    </Rule>
+    <Rule id="30">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479665888014773"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+    </Rule>
+    <Rule id="31">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479666207935362"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+    </Rule>
+    <Rule id="32">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479669636255987"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+    </Rule>
+    <Rule id="33">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479670499296649"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+    </Rule>
+    <Rule id="27">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ActionLink link="16479532201791343"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+      <ConditionLink link="16479531818491336" conditionState="true"/>
+      <ConditionLink link="16479528003360997" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479664530793646"/>
+    </Rule>
+    <Rule id="28">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ActionLink link="16479532201791343"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+      <ActionLink link="11443124863976962"/>
+      <ConditionLink link="16479531818491336" conditionState="true"/>
+      <ConditionLink link="16479528003360997" conditionState="false"/>
+      <ConditionOccurrenceLink link="16479664530793646"/>
+    </Rule>
+    <Rule id="29">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="true"/>
+      <ActionOccurrenceLink link="16479528372471079"/>
+      <ConditionLink link="16479531818491336" conditionState="false"/>
+      <ActionOccurrenceLink link="16479532481181606"/>
+      <ConditionOccurrenceLink link="16479664530793646"/>
+    </Rule>
+    <Rule id="10">
+      <ConditionOccurrenceLink link="16479527582220960"/>
+      <ConditionLink link="16479528880601257" conditionState="false"/>
+      <ActionOccurrenceLink link="16479527366140890"/>
+    </Rule>
+  </Rules>
+  <Title language="English" value="Extract images from html document"/>
+  <UrlsOut>
+    <Url title="Folder" url="file:///./"/>
+  </UrlsOut>
+</LFET>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.03.23 at 02:51:35 CET" saveUser="constantin">
+  <Conditions>
+    <Condition uId="11443124863866955">
+      <Title language="English" value="State"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16479673050937445">
+          <Symbol language="English" value="I"/>
+          <Title language="English" value="Init State"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479673050957447">
+          <Symbol language="English" value="SH"/>
+          <Title language="English" value="Search Header State"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+    </Condition>
+    <Condition uId="16479673327677685">
+      <Title language="English" value="exist header title"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16480001288520614">
+          <Symbol language="English" value="html head title"/>
+          <Title language="English" value="html head title"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479997219999387">
+          <Symbol language="English" value="H1"/>
+          <Title language="English" value="h1"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479999252759771">
+          <Title language="English" value="p.lfhtml-title-01"/>
+          <Symbol language="English" value="p.lfhtml-title-01"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479997220019389">
+          <Symbol language="English" value="*"/>
+          <Title language="English" value="not found"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Condition>
+    <Condition uId="16479978798978542">
+      <Title language="English" value="save original file"/>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="16479966765487804">
+      <Title language="English" value="Error"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479967020017881">
+          <Symbol language="English" value="HM"/>
+          <Title language="English" value="Header title for file '%s'  is missing"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="11443124863976962">
+      <Title language="English" value="create pages directory"/>
+    </Action>
+    <Action uId="16479673499807737">
+      <Title language="English" value="extract header"/>
+      <Text language="English" value="// $$Enum.Plain"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479997845909510">
+          <Symbol language="English" value="H1"/>
+          <Title language="English" value="h1"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16480001633580767">
+          <Symbol language="English" value="html head title"/>
+          <Title language="English" value="html head title"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479999481229909">
+          <Symbol language="English" value="p.lfhtml-title-01"/>
+          <Title language="English" value="p.lfhtml-title-01"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479997845819501">
+          <Symbol language="English" value="X"/>
+          <Title language="English" value="execute action"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+    <Action uId="16479979103488550">
+      <Title language="English" value="save file in pages directory"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479985637488917">
+          <Symbol language="English" value="ADOC"/>
+          <Title language="English" value="save converted asciidoc file"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479985839768922">
+          <Symbol language="English" value="HTML"/>
+          <Title language="English" value="save original file"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="11443124877466972">
+      <Title language="English" value="State"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479966274027792">
+          <Symbol language="English" value="SH"/>
+          <Title language="English" value="Search Header State"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479672932407338">
+          <Symbol language="English" value="E"/>
+          <Title language="English" value="Exit"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+  </Actions>
+  <Rules lastId="18">
+    <Rule id="12">
+      <ConditionOccurrenceLink link="16479673050937445"/>
+      <ActionLink link="11443124863976962"/>
+      <ActionOccurrenceLink link="16479966274027792"/>
+      <ConditionLink link="16479978798978542" conditionState="true"/>
+      <ActionOccurrenceLink link="16479985839768922"/>
+    </Rule>
+    <Rule id="11">
+      <ConditionOccurrenceLink link="16479673050937445"/>
+      <ActionLink link="11443124863976962"/>
+      <ActionOccurrenceLink link="16479966274027792"/>
+      <ConditionLink link="16479978798978542" conditionState="false"/>
+    </Rule>
+    <Rule id="18">
+      <ConditionOccurrenceLink link="16479673050957447"/>
+      <ConditionOccurrenceLink link="16480001288520614"/>
+      <ActionOccurrenceLink link="16479985637488917"/>
+      <ActionOccurrenceLink link="16479672932407338"/>
+      <ActionOccurrenceLink link="16480001633580767"/>
+    </Rule>
+    <Rule id="15">
+      <ConditionOccurrenceLink link="16479673050957447"/>
+      <ActionOccurrenceLink link="16479672932407338"/>
+      <ActionOccurrenceLink link="16479985637488917"/>
+      <ConditionOccurrenceLink link="16479997219999387"/>
+      <ActionOccurrenceLink link="16479997845909510"/>
+    </Rule>
+    <Rule id="17">
+      <ConditionOccurrenceLink link="16479673050957447"/>
+      <ConditionOccurrenceLink link="16479999252759771"/>
+      <ActionOccurrenceLink link="16479999481229909"/>
+      <ActionOccurrenceLink link="16479985637488917"/>
+      <ActionOccurrenceLink link="16479672932407338"/>
+    </Rule>
+    <Rule id="16">
+      <ConditionOccurrenceLink link="16479673050957447"/>
+      <ActionOccurrenceLink link="16479672932407338"/>
+      <ActionOccurrenceLink link="16479967020017881"/>
+      <ConditionOccurrenceLink link="16479997220019389"/>
+    </Rule>
+  </Rules>
+  <Title language="English" value="Convert Html document to AsciiDoc document"/>
+  <UrlsOut>
+    <Url title="Folder" url="file:///./"/>
+  </UrlsOut>
+</LFET>

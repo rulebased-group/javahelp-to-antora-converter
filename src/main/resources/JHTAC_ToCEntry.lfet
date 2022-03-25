@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="German" saveDate="2022.03.23 at 01:57:04 CET" saveUser="constantin">
+  <Conditions>
+    <Condition uId="16479129097929057">
+      <Title language="German" value="State"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16479129399149118">
+          <Symbol language="German" value="I"/>
+          <Title language="German" value="Init"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16479129399169120">
+          <Symbol language="German" value="PSE"/>
+          <Title language="German" value="Process sub entries"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+    </Condition>
+    <Condition uId="16479127470458923">
+      <Title language="German" value="next nested toc entry exists"/>
+    </Condition>
+    <Condition uId="11446800829457960">
+      <Title language="German" value="Exists target file in archive"/>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="11446800828767967">
+      <Title language="German" value="Error"/>
+      <Text language="German" value="// $$Enum.Plain"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479128517989012">
+          <Symbol language="German" value="TFM"/>
+          <Title language="German" value="Target file in archive missing"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+    <Action uId="16479370579020402">
+      <Title language="German" value="process table of content entry"/>
+      <UrlsOut>
+        <Url title="JHTAC_ToCEntry.lfet" url="file:///./JHTAC_ToCEntry.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="16479376140740626">
+      <Title language="German" value="convert and save html as adoc"/>
+      <UrlsOut>
+        <Url title="JHTAC_HtmlToAsciiDocConverter.lfet" url="file:///./JHTAC_HtmlToAsciiDocConverter.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="16479421344590710">
+      <Title language="German" value="add entry to nav"/>
+    </Action>
+    <Action uId="16479533274962036">
+      <Title language="German" value="extract images"/>
+      <UrlsOut>
+        <Url title="JHTAC_ExtractImages.lfet" url="file:///./JHTAC_ExtractImages.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="11446800829627977">
+      <Title language="German" value="State"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16479130279659299">
+          <Symbol language="German" value="PSE"/>
+          <Title language="German" value="Process sub entries"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16479130052069239">
+          <Symbol language="German" value="E"/>
+          <Title language="German" value="Exit"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+  </Actions>
+  <Rules lastId="11">
+    <Rule id="11">
+      <ConditionLink link="11446800829457960" conditionState="true"/>
+      <ConditionOccurrenceLink link="16479129399149118"/>
+      <ActionOccurrenceLink link="16479130279659299"/>
+      <ActionLink link="16479376140740626"/>
+      <ActionLink link="16479421344590710"/>
+      <ActionLink link="16479533274962036"/>
+    </Rule>
+    <Rule id="4">
+      <ConditionLink link="11446800829457960" conditionState="false"/>
+      <ActionOccurrenceLink link="16479128517989012"/>
+      <ConditionOccurrenceLink link="16479129399149118"/>
+      <ActionOccurrenceLink link="16479130052069239"/>
+    </Rule>
+    <Rule id="8">
+      <ConditionOccurrenceLink link="16479129399169120"/>
+      <ConditionLink link="16479127470458923" conditionState="true"/>
+      <ActionOccurrenceLink link="16479130279659299"/>
+      <ActionLink link="16479370579020402"/>
+    </Rule>
+    <Rule id="7">
+      <ConditionOccurrenceLink link="16479129399169120"/>
+      <ConditionLink link="16479127470458923" conditionState="false"/>
+      <ActionOccurrenceLink link="16479130052069239"/>
+    </Rule>
+  </Rules>
+  <Title language="German" value="Process Table of Content Entry"/>
+  <UrlsOut>
+    <Url title="Ordner" url="file:///./"/>
+  </UrlsOut>
+</LFET>

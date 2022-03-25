@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.03.24 at 14:14:57 CET" saveUser="constantin">
+  <Conditions>
+    <Condition uId="11446800829457960">
+      <Title language="German" value="State"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16476534883142598">
+          <Symbol language="German" value="INIT"/>
+          <Title language="German" value="Initialisierung"/>
+          <Symbol language="English" value="INIT"/>
+          <Title language="English" value="initialize state"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16476534883162600">
+          <Symbol language="German" value="N"/>
+          <Title language="German" value="Nein"/>
+          <Symbol language="English" value="TOC"/>
+          <Title language="English" value="ToC processing state"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Title language="English" value="State"/>
+    </Condition>
+    <Condition uId="16476534404082555">
+      <Title language="German" value="Exist input file?"/>
+      <Title language="English" value="Exist input jar file?"/>
+    </Condition>
+    <Condition uId="16476536747033014">
+      <Title language="English" value="ToC file exists?"/>
+    </Condition>
+    <Condition uId="16477842321463886">
+      <Title language="English" value="next table of content entry  on level 1 exists?"/>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="11446800828767967">
+      <Title language="German" value="Titel für Aktion 1"/>
+      <Title language="English" value="Error"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16476535811712874">
+          <Symbol language="English" value="IFM"/>
+          <Title language="English" value="Input jar file is missing"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16476537258743097">
+          <Symbol language="English" value="TOCFM"/>
+          <Title language="English" value="ToC file is missing"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="16477842874904176">
+      <Title language="English" value="create modul with name of table of content entry"/>
+    </Action>
+    <Action uId="16479131699109421">
+      <Title language="English" value="process table of content entry"/>
+      <UrlsOut>
+        <Url title="JHTAC_ToCEntry.lfet" url="file:///./JHTAC_ToCEntry.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="16477846196604696">
+      <Title language="English" value="read ToC file"/>
+    </Action>
+    <Action uId="16480323885021252">
+      <Title language="English" value="delete modules directory"/>
+    </Action>
+    <Action uId="16481274242641368">
+      <Title language="English" value="save antora.yml to docs directory"/>
+    </Action>
+    <Action uId="11446800829627977">
+      <Title language="German" value="State"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16476538341063421">
+          <Symbol language="English" value="TOC"/>
+          <Title language="English" value="ToC processing state"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16476532769872529">
+          <Symbol language="German" value="E"/>
+          <Title language="German" value="Exit"/>
+          <Symbol language="English" value="E"/>
+          <Title language="English" value="Exit"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Title language="English" value="State"/>
+    </Action>
+  </Actions>
+  <Rules lastId="17">
+    <Rule id="16">
+      <ConditionOccurrenceLink link="16476534883142598"/>
+      <ConditionLink link="16476534404082555" conditionState="true"/>
+      <ConditionLink link="16476536747033014" conditionState="true"/>
+      <ActionOccurrenceLink link="16476538341063421"/>
+      <ActionLink link="16477846196604696"/>
+      <ActionLink link="16480323885021252"/>
+    </Rule>
+    <Rule id="8">
+      <ConditionOccurrenceLink link="16476534883142598"/>
+      <ConditionLink link="16476534404082555" conditionState="true"/>
+      <ConditionLink link="16476536747033014" conditionState="false"/>
+      <ActionOccurrenceLink link="16476537258743097"/>
+      <ActionOccurrenceLink link="16476532769872529"/>
+    </Rule>
+    <Rule id="6">
+      <ConditionOccurrenceLink link="16476534883142598"/>
+      <ConditionLink link="16476534404082555" conditionState="false"/>
+      <ActionOccurrenceLink link="16476532769872529"/>
+      <ActionOccurrenceLink link="16476535811712874"/>
+    </Rule>
+    <Rule id="15">
+      <ConditionOccurrenceLink link="16476534883162600"/>
+      <ActionOccurrenceLink link="16476538341063421"/>
+      <ConditionLink link="16477842321463886" conditionState="true"/>
+      <ActionLink link="16477842874904176"/>
+      <ActionLink link="16479131699109421"/>
+    </Rule>
+    <Rule id="17">
+      <ConditionOccurrenceLink link="16476534883162600"/>
+      <ActionOccurrenceLink link="16476532769872529"/>
+      <ConditionLink link="16477842321463886" conditionState="false"/>
+      <ActionLink link="16481274242641368"/>
+    </Rule>
+  </Rules>
+  <Title language="German" value="Java Help to Antora Converter"/>
+  <UrlsOut>
+    <Url title="Ordner" url="file:///./"/>
+  </UrlsOut>
+  <Title language="English" value="Java Help to Antora Converter"/>
+</LFET>
