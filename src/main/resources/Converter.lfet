@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.11 at 00:38:23 CEST" saveUser="constantin">
+  <Conditions>
+    <Condition uId="16493994178853304">
+      <Title language="German" value="step"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16493994251473366">
+          <Symbol language="German" value="1"/>
+          <Title language="German" value="1"/>
+          <Symbol language="English" value="1"/>
+          <Title language="English" value="1"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16493994251493368">
+          <Symbol language="German" value="2"/>
+          <Title language="German" value="2"/>
+          <Symbol language="English" value="2"/>
+          <Title language="English" value="2"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16496298916813009">
+          <Symbol language="English" value="3"/>
+          <Title language="English" value="3"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Title language="English" value="step"/>
+    </Condition>
+    <Condition uId="11446800829457960">
+      <Title language="German" value="args size ="/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16493992871703168">
+          <Symbol language="German" value="= 0"/>
+          <Title language="German" value="without arguments called"/>
+          <Symbol language="English" value="= 0"/>
+          <Title language="English" value="without arguments called"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16493992871723170">
+          <Symbol language="German" value="= 1"/>
+          <Title language="German" value="with one argument called"/>
+          <Symbol language="English" value="= 1"/>
+          <Title language="English" value="with one argument called"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16493993221133177">
+          <Symbol language="German" value="&gt; 1"/>
+          <Title language="German" value="with to many arguments called"/>
+          <Symbol language="English" value="&gt; 1"/>
+          <Title language="English" value="with to many arguments called"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Title language="English" value="args size ="/>
+    </Condition>
+    <Condition uId="16493996466763666">
+      <Title language="German" value="existiert die Konfigurations Datei"/>
+      <Title language="English" value="exists config file"/>
+    </Condition>
+    <Condition uId="16496299014053141">
+      <Title language="English" value="input file type ="/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16496299153323291">
+          <Symbol language="English" value="F"/>
+          <Title language="English" value="File"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16496299153343293">
+          <Symbol language="English" value="D"/>
+          <Title language="English" value="Directory"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="11446800828767967">
+      <Title language="German" value="set config file name"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16493993767893257">
+          <Symbol language="German" value="default"/>
+          <Title language="German" value="converter-config.yaml"/>
+          <Symbol language="English" value="default"/>
+          <Title language="English" value="converter-config.yaml"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16493993909503261">
+          <Symbol language="German" value="args"/>
+          <Symbol language="English" value="args"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Title language="English" value="set config file name"/>
+    </Action>
+    <Action uId="16493994082633301">
+      <Title language="German" value="error"/>
+      <Title language="English" value="error"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16494970006835500">
+          <Symbol language="English" value="MA"/>
+          <Title language="English" value="Two many arguments, please call Converter with path to config.yaml!"/>
+          <Symbol language="German" value="MA"/>
+          <Title language="German" value="Two many arguments, please call Converter with path to config.yaml!"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16494970564675802">
+          <Symbol language="English" value="MCF"/>
+          <Title language="English" value="%s file is missing."/>
+          <Symbol language="German" value="MCF"/>
+          <Title language="German" value="%s file is missing."/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16496300567414679">
+          <Symbol language="English" value="NSIT"/>
+          <Title language="English" value="Directory as input is not supported."/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="16493996888903675">
+      <Title language="German" value="read config file as yaml"/>
+      <Title language="English" value="read config file as yaml"/>
+    </Action>
+    <Action uId="16496299594034192">
+      <Title language="English" value="set input facade"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16496300355914356">
+          <Symbol language="English" value="JAR"/>
+          <Title language="English" value="Jar file facade"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="16493998244423772">
+      <Title language="German" value="start migration"/>
+      <Title language="English" value="start migration"/>
+      <UrlsOut>
+        <Url title="JavaHelpToAntoraConverter.lfet" url="file:///./JavaHelpToAntoraConverter.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="11446800829627977">
+      <Title language="German" value="next step"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16493994577403496">
+          <Symbol language="German" value="E"/>
+          <Title language="German" value="Exit"/>
+          <Symbol language="English" value="E"/>
+          <Title language="English" value="Exit"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16493994621973500">
+          <Symbol language="German" value="+"/>
+          <Title language="German" value="next Step"/>
+          <Symbol language="English" value="+"/>
+          <Title language="English" value="next Step"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+      <Title language="English" value="next step"/>
+    </Action>
+  </Actions>
+  <Rules lastId="20">
+    <Rule id="3">
+      <ConditionOccurrenceLink link="16493992871703168"/>
+      <ActionOccurrenceLink link="16493993767893257"/>
+      <ConditionOccurrenceLink link="16493994251473366"/>
+      <ActionOccurrenceLink link="16493994621973500"/>
+    </Rule>
+    <Rule id="4">
+      <ConditionOccurrenceLink link="16493992871723170"/>
+      <ActionOccurrenceLink link="16493993909503261"/>
+      <ConditionOccurrenceLink link="16493994251473366"/>
+      <ActionOccurrenceLink link="16493994621973500"/>
+    </Rule>
+    <Rule id="9">
+      <ConditionOccurrenceLink link="16493993221133177"/>
+      <ConditionOccurrenceLink link="16493994251473366"/>
+      <ActionOccurrenceLink link="16493994577403496"/>
+      <ActionOccurrenceLink link="16494970006835500"/>
+    </Rule>
+    <Rule id="20">
+      <ConditionOccurrenceLink link="16493994251493368"/>
+      <ConditionLink link="16493996466763666" conditionState="true"/>
+      <ActionOccurrenceLink link="16493994621973500"/>
+      <ActionLink link="16493996888903675"/>
+    </Rule>
+    <Rule id="11">
+      <ConditionOccurrenceLink link="16493994251493368"/>
+      <ConditionLink link="16493996466763666" conditionState="false"/>
+      <ActionOccurrenceLink link="16493994577403496"/>
+      <ActionOccurrenceLink link="16494970564675802"/>
+    </Rule>
+    <Rule id="19">
+      <ConditionOccurrenceLink link="16496298916813009"/>
+      <ConditionOccurrenceLink link="16496299153323291"/>
+      <ActionOccurrenceLink link="16496300355914356"/>
+      <ActionOccurrenceLink link="16493994577403496"/>
+      <ActionLink link="16493998244423772"/>
+    </Rule>
+    <Rule id="16">
+      <ConditionOccurrenceLink link="16496298916813009"/>
+      <ConditionOccurrenceLink link="16496299153343293"/>
+      <ActionOccurrenceLink link="16496300567414679"/>
+      <ActionOccurrenceLink link="16493994577403496"/>
+    </Rule>
+  </Rules>
+  <Title language="German" value="Converter"/>
+  <UrlsOut>
+    <Url title="Ordner" url="file:///./"/>
+  </UrlsOut>
+  <SourceCode codeLanguage="Java" sourceCodeType="Prolog" value="// $$Package=io.rulebased.group.javahelp.converter"/>
+  <Title language="English" value="Converter"/>
+</LFET>

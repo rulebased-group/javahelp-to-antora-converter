@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.03.22 at 17:37:43 CET" saveUser="constantin">
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.03 at 23:25:50 CEST" saveUser="constantin">
   <Conditions>
     <Condition uId="11443124863866955">
       <Title language="English" value="State"/>
@@ -162,4 +162,5 @@
   <UrlsOut>
     <Url title="Folder" url="file:///./"/>
   </UrlsOut>
+  <SourceCode codeLanguage="Java" sourceCodeType="Prolog" value="// $$Package=io.rulebased.group.javahelp.converter.antora.convert.images"/>
 </LFET>

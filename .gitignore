@@ -1,3 +1,6 @@
 .idea/
 *.iml
 target/
+*.lfet.*.$bak
+dependency-reduced-pom.xml
+converter-config.yaml

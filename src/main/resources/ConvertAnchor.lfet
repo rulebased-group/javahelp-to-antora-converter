@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.03 at 22:46:35 CEST" saveUser="constantin">
+  <Conditions>
+    <Condition uId="11443124863866955">
+      <Title language="English" value="State"/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16490067871014217">
+          <Symbol language="English" value="I"/>
+          <Title language="English" value="Init"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16490067871034219">
+          <Symbol language="English" value="PSE"/>
+          <Title language="English" value="Process sub elements"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+    </Condition>
+    <Condition uId="16490068093104252">
+      <Title language="English" value="current element is ..."/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="16490068207564299">
+          <Symbol language="English" value="a"/>
+          <Title language="English" value="anchor"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16490068207584301">
+          <Symbol language="English" value="*"/>
+          <Title language="English" value="other"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Text language="English" value="// $$Enum.Plain"/>
+    </Condition>
+  </Conditions>
+  <Actions>
+    <Action uId="11443124863976962">
+      <Title language="English" value="extract anchor"/>
+    </Action>
+    <Action uId="11443124877466972">
+      <Title language="English" value="State"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16490068480174496">
+          <Symbol language="English" value="PSE"/>
+          <Title language="English" value="Process sub elements"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16490068553884500">
+          <Symbol language="English" value="E"/>
+          <Title language="English" value="exit"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
+    </Action>
+  </Actions>
+  <Rules lastId="6">
+    <Rule id="6">
+      <ConditionOccurrenceLink link="16490067871014217"/>
+      <ConditionOccurrenceLink link="16490068207564299"/>
+      <ActionOccurrenceLink link="16490068480174496"/>
+      <ActionLink link="11443124863976962"/>
+    </Rule>
+    <Rule id="4">
+      <ConditionOccurrenceLink link="16490067871014217"/>
+      <ConditionOccurrenceLink link="16490068207584301"/>
+      <ActionOccurrenceLink link="16490068553884500"/>
+    </Rule>
+    <Rule id="5">
+      <ConditionOccurrenceLink link="16490067871034219"/>
+      <ActionOccurrenceLink link="16490068553884500"/>
+    </Rule>
+  </Rules>
+  <Title language="English" value="Convert anchor to AsciiDoc"/>
+  <UrlsOut>
+    <Url title="Folder" url="file:///./"/>
+  </UrlsOut>
+  <SourceCode codeLanguage="Java" sourceCodeType="Prolog" value="// $$Package=io.rulebased.group.javahelp.converter.antora.convert.anchor"/>
+</LFET>

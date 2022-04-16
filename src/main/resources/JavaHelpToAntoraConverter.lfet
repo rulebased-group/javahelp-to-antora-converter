@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.03.24 at 14:14:57 CET" saveUser="constantin">
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.11 at 23:01:29 CEST" saveUser="constantin">
   <Conditions>
     <Condition uId="11446800829457960">
       <Title language="German" value="State"/>
@@ -8,24 +8,20 @@
         <ConditionOccurrence uId="16476534883142598">
           <Symbol language="German" value="INIT"/>
           <Title language="German" value="Initialisierung"/>
-          <Symbol language="English" value="INIT"/>
-          <Title language="English" value="initialize state"/>
+          <Symbol language="English" value="1"/>
+          <Title language="English" value="1"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16476534883162600">
           <Symbol language="German" value="N"/>
           <Title language="German" value="Nein"/>
-          <Symbol language="English" value="TOC"/>
-          <Title language="English" value="ToC processing state"/>
+          <Symbol language="English" value="2"/>
+          <Title language="English" value="2"/>
         </ConditionOccurrence>
       </ConditionOccurrences>
-      <Title language="English" value="State"/>
-    </Condition>
-    <Condition uId="16476534404082555">
-      <Title language="German" value="Exist input file?"/>
-      <Title language="English" value="Exist input jar file?"/>
+      <Title language="English" value="Step"/>
     </Condition>
     <Condition uId="16476536747033014">
-      <Title language="English" value="ToC file exists?"/>
+      <Title language="English" value="exists table of content file"/>
     </Condition>
     <Condition uId="16477842321463886">
       <Title language="English" value="next table of content entry  on level 1 exists?"/>
@@ -36,10 +32,6 @@
       <Title language="German" value="Titel für Aktion 1"/>
       <Title language="English" value="Error"/>
       <ActionOccurrences>
-        <ActionOccurrence uId="16476535811712874">
-          <Symbol language="English" value="IFM"/>
-          <Title language="English" value="Input jar file is missing"/>
-        </ActionOccurrence>
         <ActionOccurrence uId="16476537258743097">
           <Symbol language="English" value="TOCFM"/>
           <Title language="English" value="ToC file is missing"/>
@@ -62,54 +54,50 @@
     <Action uId="16480323885021252">
       <Title language="English" value="delete modules directory"/>
     </Action>
+    <Action uId="16484212669797842">
+      <Title language="English" value="add module entry to nav"/>
+    </Action>
     <Action uId="16481274242641368">
       <Title language="English" value="save antora.yml to docs directory"/>
     </Action>
     <Action uId="11446800829627977">
       <Title language="German" value="State"/>
       <ActionOccurrences>
-        <ActionOccurrence uId="16476538341063421">
-          <Symbol language="English" value="TOC"/>
-          <Title language="English" value="ToC processing state"/>
-        </ActionOccurrence>
         <ActionOccurrence uId="16476532769872529">
           <Symbol language="German" value="E"/>
           <Title language="German" value="Exit"/>
           <Symbol language="English" value="E"/>
           <Title language="English" value="Exit"/>
         </ActionOccurrence>
+        <ActionOccurrence uId="16497106619049011">
+          <Symbol language="English" value="2"/>
+          <Title language="English" value="2"/>
+        </ActionOccurrence>
       </ActionOccurrences>
-      <Title language="English" value="State"/>
+      <Title language="English" value="Step"/>
     </Action>
   </Actions>
-  <Rules lastId="17">
-    <Rule id="16">
+  <Rules lastId="25">
+    <Rule id="25">
       <ConditionOccurrenceLink link="16476534883142598"/>
-      <ConditionLink link="16476534404082555" conditionState="true"/>
       <ConditionLink link="16476536747033014" conditionState="true"/>
-      <ActionOccurrenceLink link="16476538341063421"/>
+      <ActionOccurrenceLink link="16497106619049011"/>
       <ActionLink link="16477846196604696"/>
       <ActionLink link="16480323885021252"/>
     </Rule>
-    <Rule id="8">
+    <Rule id="20">
       <ConditionOccurrenceLink link="16476534883142598"/>
-      <ConditionLink link="16476534404082555" conditionState="true"/>
       <ConditionLink link="16476536747033014" conditionState="false"/>
       <ActionOccurrenceLink link="16476537258743097"/>
       <ActionOccurrenceLink link="16476532769872529"/>
     </Rule>
-    <Rule id="6">
-      <ConditionOccurrenceLink link="16476534883142598"/>
-      <ConditionLink link="16476534404082555" conditionState="false"/>
-      <ActionOccurrenceLink link="16476532769872529"/>
-      <ActionOccurrenceLink link="16476535811712874"/>
-    </Rule>
-    <Rule id="15">
+    <Rule id="24">
       <ConditionOccurrenceLink link="16476534883162600"/>
-      <ActionOccurrenceLink link="16476538341063421"/>
+      <ActionOccurrenceLink link="16497106619049011"/>
       <ConditionLink link="16477842321463886" conditionState="true"/>
       <ActionLink link="16477842874904176"/>
       <ActionLink link="16479131699109421"/>
+      <ActionLink link="16484212669797842"/>
     </Rule>
     <Rule id="17">
       <ConditionOccurrenceLink link="16476534883162600"/>

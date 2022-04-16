@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.2.0 (220224a)" language="German" saveDate="2022.03.23 at 01:57:04 CET" saveUser="constantin">
+<LFET version="LF-ET 2.2.0 (220224a)" language="German" saveDate="2022.04.16 at 21:05:35 CEST" saveUser="constantin">
   <Conditions>
     <Condition uId="16479129097929057">
-      <Title language="German" value="State"/>
+      <Title language="German" value="Step"/>
       <ConditionOccurrences>
         <ConditionOccurrence uId="16479129399149118">
-          <Symbol language="German" value="I"/>
-          <Title language="German" value="Init"/>
+          <Symbol language="German" value="1"/>
+          <Title language="German" value="Step 1"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16500605874431656">
+          <Symbol language="German" value="2"/>
+          <Title language="German" value="Step 2"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16479129399169120">
-          <Symbol language="German" value="PSE"/>
-          <Title language="German" value="Process sub entries"/>
+          <Symbol language="German" value="3"/>
+          <Title language="German" value="Step 3"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16500607781202191">
+          <Symbol language="German" value="4"/>
+          <Title language="German" value="Step 4"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16500609219533548">
+          <Symbol language="German" value="5"/>
+          <Title language="German" value="Step 5"/>
         </ConditionOccurrence>
       </ConditionOccurrences>
     </Condition>
@@ -20,6 +32,9 @@
     </Condition>
     <Condition uId="11446800829457960">
       <Title language="German" value="Exists target file in archive"/>
+    </Condition>
+    <Condition uId="16500591788720515">
+      <Title language="German" value="save original file"/>
     </Condition>
   </Conditions>
   <Actions>
@@ -40,10 +55,27 @@
       </UrlsOut>
     </Action>
     <Action uId="16479376140740626">
-      <Title language="German" value="convert and save html as adoc"/>
+      <Title language="German" value="convert html to adoc"/>
       <UrlsOut>
         <Url title="JHTAC_HtmlToAsciiDocConverter.lfet" url="file:///./JHTAC_HtmlToAsciiDocConverter.lfet"/>
       </UrlsOut>
+    </Action>
+    <Action uId="16500607378392031">
+      <Title language="German" value="create pages directory"/>
+    </Action>
+    <Action uId="16500593005830529">
+      <Title language="German" value="save original file"/>
+      <Text language="German" value="// $$Enum.Plain"/>
+      <ActionOccurrences>
+        <ActionOccurrence uId="16500612185385936">
+          <Symbol language="German" value="HTML"/>
+          <Title language="German" value="save original file"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16500612217485942">
+          <Symbol language="German" value="ADOC"/>
+          <Title language="German" value="save converted file"/>
+        </ActionOccurrence>
+      </ActionOccurrences>
     </Action>
     <Action uId="16479421344590710">
       <Title language="German" value="add entry to nav"/>
@@ -55,11 +87,15 @@
       </UrlsOut>
     </Action>
     <Action uId="11446800829627977">
-      <Title language="German" value="State"/>
+      <Title language="German" value="next Step"/>
       <ActionOccurrences>
         <ActionOccurrence uId="16479130279659299">
-          <Symbol language="German" value="PSE"/>
-          <Title language="German" value="Process sub entries"/>
+          <Symbol language="German" value="5"/>
+          <Title language="German" value="Step 5"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="16500605721651337">
+          <Symbol language="German" value="+"/>
+          <Title language="German" value="next Step"/>
         </ActionOccurrence>
         <ActionOccurrence uId="16479130052069239">
           <Symbol language="German" value="E"/>
@@ -68,14 +104,13 @@
       </ActionOccurrences>
     </Action>
   </Actions>
-  <Rules lastId="11">
-    <Rule id="11">
+  <Rules lastId="35">
+    <Rule id="33">
       <ConditionLink link="11446800829457960" conditionState="true"/>
       <ConditionOccurrenceLink link="16479129399149118"/>
-      <ActionOccurrenceLink link="16479130279659299"/>
-      <ActionLink link="16479376140740626"/>
+      <ActionOccurrenceLink link="16500605721651337"/>
+      <ActionLink link="16500607378392031"/>
       <ActionLink link="16479421344590710"/>
-      <ActionLink link="16479533274962036"/>
     </Rule>
     <Rule id="4">
       <ConditionLink link="11446800829457960" conditionState="false"/>
@@ -83,14 +118,36 @@
       <ConditionOccurrenceLink link="16479129399149118"/>
       <ActionOccurrenceLink link="16479130052069239"/>
     </Rule>
-    <Rule id="8">
+    <Rule id="34">
+      <ConditionOccurrenceLink link="16500605874431656"/>
+      <ActionOccurrenceLink link="16500605721651337"/>
+      <ConditionLink link="16500591788720515" conditionState="true"/>
+      <ActionOccurrenceLink link="16500612185385936"/>
+    </Rule>
+    <Rule id="23">
+      <ConditionOccurrenceLink link="16500605874431656"/>
+      <ActionOccurrenceLink link="16500605721651337"/>
+      <ConditionLink link="16500591788720515" conditionState="false"/>
+    </Rule>
+    <Rule id="26">
       <ConditionOccurrenceLink link="16479129399169120"/>
+      <ActionOccurrenceLink link="16500605721651337"/>
+      <ActionLink link="16479533274962036"/>
+    </Rule>
+    <Rule id="35">
+      <ConditionOccurrenceLink link="16500607781202191"/>
+      <ActionOccurrenceLink link="16500605721651337"/>
+      <ActionLink link="16479376140740626"/>
+      <ActionOccurrenceLink link="16500612217485942"/>
+    </Rule>
+    <Rule id="32">
+      <ConditionOccurrenceLink link="16500609219533548"/>
+      <ActionLink link="16479370579020402"/>
       <ConditionLink link="16479127470458923" conditionState="true"/>
       <ActionOccurrenceLink link="16479130279659299"/>
-      <ActionLink link="16479370579020402"/>
     </Rule>
-    <Rule id="7">
-      <ConditionOccurrenceLink link="16479129399169120"/>
+    <Rule id="31">
+      <ConditionOccurrenceLink link="16500609219533548"/>
       <ConditionLink link="16479127470458923" conditionState="false"/>
       <ActionOccurrenceLink link="16479130052069239"/>
     </Rule>
@@ -99,4 +156,5 @@
   <UrlsOut>
     <Url title="Ordner" url="file:///./"/>
   </UrlsOut>
+  <SourceCode codeLanguage="Java" sourceCodeType="Prolog" value="// $$Package=io.rulebased.group.javahelp.converter.antora.convert.toc"/>
 </LFET>
