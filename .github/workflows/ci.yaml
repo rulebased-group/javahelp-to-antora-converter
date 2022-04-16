@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          mvn test
+
+      - name: Create executable jar
+        run: |
+          mvn package -DskipTests
