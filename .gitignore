@@ -2,5 +2,6 @@
 *.iml
 target/
 *.lfet.*.$bak
+*.lfet_$temp
 dependency-reduced-pom.xml
 converter-config.yaml

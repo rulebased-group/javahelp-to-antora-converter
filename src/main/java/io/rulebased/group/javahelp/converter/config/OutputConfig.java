@@ -16,4 +16,6 @@ public class OutputConfig {
     private Charset encoding;
     @JsonProperty(defaultValue = "false")
     private boolean saveOriginalHtmlFile;
+    @JsonProperty("antora")
+    private AntoraYml antoraYml;
 }

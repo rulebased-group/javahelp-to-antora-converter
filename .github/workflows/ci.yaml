@@ -3,10 +3,16 @@ name: CI
 on: [push]
 
 jobs:
-  ci:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: install jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          vendor: openjdk
 
       - name: Run tests
         run: |

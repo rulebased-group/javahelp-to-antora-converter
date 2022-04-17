@@ -98,15 +98,14 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     @Override
     public void doAddModuleEntryToNav(JavaHelpToAntoraConverterModel model) {
         String moduleName = model.processingModel.currentTOCElement.getAttributeValue("text").replaceAll(" ", "_").replaceAll(":", "");
-        model.processingModel.antoraYml.nav.add("modules/" + moduleName + "/nav.adoc");
+        model.config.getOutput().getAntoraYml().getNav().add("modules/" + moduleName + "/nav.adoc");
     }
 
     @Override
     public void doSaveAntoraYmlToDocsDirectory(JavaHelpToAntoraConverterModel model) {
-        model.processingModel.antoraYml.asciidoc.put("experimental", true);
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
         try {
-            mapper.writeValue(new File(model.config.getOutput().getDirectory(), "antora.yml"), model.processingModel.antoraYml);
+            mapper.writeValue(new File(model.config.getOutput().getDirectory(), "antora.yml"), model.config.getOutput().getAntoraYml());
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Unknown error occured while writing antora.yml file", e);
         }

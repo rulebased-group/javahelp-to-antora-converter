@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 @RequiredArgsConstructor
 class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverterModel>, IToCConverter {
@@ -74,7 +75,28 @@ class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverte
 
     @Override
     public void doSaveOriginalFile(SaveOriginalFile arg0, TableOfContentConverterModel model) {
-
+        switch (arg0) {
+            case $001: {
+                String originalFileName = model.tocElement.getAttributeValue("target");
+                String originalFileContent = model.inputFacade.getContentOfFile(originalFileName);
+                try {
+                    Files.writeString(Path.of(model.getPagesDirectory().getPath(), originalFileName), originalFileContent, model.config.getOutput().getEncoding(), StandardOpenOption.CREATE);
+                } catch (IOException e) {
+                    throw new JavaHelpToAntoraConverterException("Failed to save file " + originalFileName + " in " + model.getPagesDirectory().getPath(), e);
+                }
+                break;
+            }
+            case $002: {
+                List<String> fileContent = model.asciidocContent;
+                String fileName = model.getPageName();
+                try {
+                    Files.write(Path.of(model.getPagesDirectory().getPath(), fileName), fileContent, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+                } catch (IOException e) {
+                    throw new JavaHelpToAntoraConverterException("Failed to save file " + fileName + " in " + model.getPagesDirectory().getPath(), e);
+                }
+                break;
+            }
+        }
     }
 
     @Override

@@ -1,3 +1,3 @@
 =  JavaHelp to Antora Converter
 
-image:https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml/badge.svg?event=push[https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml]
+image:https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml/badge.svg[https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml]
