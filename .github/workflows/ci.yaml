@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
-          vendor: openjdk
+          distribution: openjdk
 
       - name: Run tests
         run: |
