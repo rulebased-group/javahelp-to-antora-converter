@@ -50,18 +50,61 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     }
 
     @Override
-    public boolean isCurrentElementIs(CurrentElementIs arg0, Model model) {
-        return model.currentChildElement.nodeName().equals(arg0.getSymbol());
+    public boolean isSkipElement(Model model) {
+        return model.currentChildElement.attr("class").equals("lfhtml-title-01") || model.currentChildElement.attr("class").equals("lfhtml-title-02");
+    }
+
+    @Override
+    public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, Model model) {
+        switch (arg0) {
+            case $001: {
+                return model.currentChildElement instanceof TextNode;
+            }
+            case $002: {
+                return model.currentChildElement instanceof Element;
+            }
+            default: {
+                return false;
+            }
+        }
     }
 
 
     @Override
-    public boolean isTextIsNoneBreakingSpace(Model model) {
+    public boolean isCurrentElementTagnameIs(CurrentElementTagnameIs arg0, Model model) {
+        return model.currentChildElement.nodeName().equals(arg0.getSymbol());
+    }
+
+    @Override
+    public boolean isTrimmedTextIsEqualTo(TrimmedTextIsEqualTo arg0, Model model) {
+        String text = "";
         if (model.currentChildElement instanceof TextNode) {
-            return ((TextNode)model.currentChildElement).text().equals("&nbsp;");
+            text = ((TextNode) model.currentChildElement).text();
         } else {
-            return ((Element)model.currentChildElement).text().equals("&nbsp;");
+            text = ((Element) model.currentChildElement).text();
         }
+        switch (arg0) {
+            case $001: {
+                return text.equalsIgnoreCase("%nbsp;");
+            }
+            case $002: {
+                return text.isEmpty();
+            }
+            case $003: {
+                return text.isBlank();
+            }
+            case $004: {
+                return text.equalsIgnoreCase("\n");
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public boolean isStartElementIsDefined(Model model) {
+        return model.element != null;
     }
 
     @Override
@@ -82,28 +125,35 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     }
 
     @Override
+    public void doProcessElement(Model model) {
+        Model processElementModel = new Model((Element) model.currentChildElement, model.currentHeaderLevel);
+        rulesEngine.execute(this, processElementModel);
+        model.asciidocContent.addAll(processElementModel.asciidocContent);
+    }
+
+    @Override
     public void doExtractText(ExtractText arg0, Model model) {
-        switch (arg0){
+        switch (arg0) {
             case $002: {
                 String value;
                 if (model.currentChildElement instanceof TextNode) {
-                    value = ((TextNode)model.currentChildElement).text();
+                    value = ((TextNode) model.currentChildElement).text();
                 } else {
-                    value = ((Element)model.currentChildElement).text();
+                    value = ((Element) model.currentChildElement).text();
                 }
                 model.asciidocContent.add("=".repeat(model.currentHeaderLevel) + " " + value);
                 break;
             }
             case $004: {
                 if (model.currentChildElement instanceof TextNode) {
-                    model.asciidocContent.add(((TextNode)model.currentChildElement).text());
+                    model.asciidocContent.add(((TextNode) model.currentChildElement).text());
                 } else {
-                    model.asciidocContent.add(((Element)model.currentChildElement).text());
+                    model.asciidocContent.add(((Element) model.currentChildElement).text());
                 }
                 break;
             }
             default: {
-                model.asciidocContent.add(arg0.getSymbol() + ((Element)model.currentChildElement).text() + arg0.getSymbol());
+                model.asciidocContent.add(arg0.getSymbol() + ((Element) model.currentChildElement).text() + arg0.getSymbol());
             }
         }
     }
@@ -119,20 +169,33 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     }
 
     @Override
+    public void doError(Error arg0, Model model) {
+
+    }
+
+    @Override
     public void doTrace(String dtName, String version, int rules, int rule, Model model) {
-        lfetLogging.trace(dtName, version, rules, rule, model);
+        lfetLogging.trace(dtName, version, rule, rules, model);
     }
 
     @ToString
-    @RequiredArgsConstructor
     static class Model {
 
-        final Document document;
+        Document document;
         int currentHeaderLevel = 1;
         Element element;
         Node currentChildElement;
         Iterator<Node> childElementsIt;
         List<String> asciidocContent = new ArrayList<>(100);
+
+        Model(Document document) {
+            this.document = document;
+        }
+
+        Model(Element element, int currentHeaderLevel) {
+            this.element = element;
+            this.currentHeaderLevel = currentHeaderLevel;
+        }
 
     }
 

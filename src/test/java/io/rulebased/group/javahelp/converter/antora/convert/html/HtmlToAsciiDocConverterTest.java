@@ -1,6 +1,6 @@
 package io.rulebased.group.javahelp.converter.antora.convert.html;
 
-import io.rulebased.group.javahelp.converter.antora.logging.LfetLogger;
+import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
 import io.rulebased.group.javahelp.converter.config.ConverterConfig;
 import io.rulebased.group.javahelp.converter.config.OutputConfig;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-class HtmlToAsciiDocConverterTest {
+class HtmlToAsciiDocConverterTest implements ILfetLogging {
 
 
     @Test
@@ -28,12 +28,17 @@ class HtmlToAsciiDocConverterTest {
         config.getOutput().setEncoding(StandardCharsets.UTF_8);
 
 
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(new LfetLogger()).execute(config, new TestFileFacade(), "aktionsanzeigeteil1.htm");
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this).execute(config, new TestFileFacade(), "aktionsanzeigeteil1.htm");
+        System.out.println(asciidocContent);
         Assertions.assertThat(asciidocContent).isNotEmpty();
         Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
 
-        System.out.println(asciidocContent);
 
+    }
+
+    @Override
+    public <T> void trace(String lfet, String version, int currentRule, int maxRules, T model) {
+        System.out.println(lfet + " - " + currentRule + " / " + maxRules + " - " + ((HtmlToAsciiDocConverter.Model)model).currentChildElement);
     }
 
 
@@ -47,7 +52,7 @@ class HtmlToAsciiDocConverterTest {
         @Override
         public String getContentOfFile(Path path2File) throws InputFacadeRuntimeException {
             try {
-                return Files.readString(Path.of("src/test/resources/convert/html", path2File.toString()), StandardCharsets.UTF_8);
+                return Files.readString(Path.of("src/test/resources/convert/html", path2File.toString()), StandardCharsets.ISO_8859_1);
             } catch (IOException e) {
                 throw new InputFacadeRuntimeException("Error while reading file", e);
             }
@@ -56,7 +61,7 @@ class HtmlToAsciiDocConverterTest {
         @Override
         public String getContentOfFile(String path2File) throws InputFacadeRuntimeException {
             try {
-                return Files.readString(Path.of("src/test/resources/convert/html", path2File), StandardCharsets.UTF_8);
+                return Files.readString(Path.of("src/test/resources/convert/html", path2File), StandardCharsets.ISO_8859_1);
             } catch (IOException e) {
                 throw new InputFacadeRuntimeException("Error while reading file", e);
             }

@@ -5,7 +5,16 @@ image:https://github.com/rulebased-group/javahelp-to-antora-converter/actions/wo
 == ToDo
 
 * [x] skip ToC entries
-* [ ] handle nested elemets on html converter
+* [] handle nested elements on html converter
+** [x] paragraphs
+** [ ] anchors
 * [ ] skip elements based on class
+** [x] hardcoded class names
+** [ ] configurable class names
 * [ ] eliminate nbsp in text
-* [ ] skip \n text nodes
+* [x] skip text nodes
+** [x] linebreak
+** [x] none breaking spaces
+** [x] empty string
+** [x] blank string
+* [ ] detect key shortcuts and replace with kdb:[<shortcut>]
