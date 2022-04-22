@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.16 at 21:24:50 CEST" saveUser="constantin">
+<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.18 at 00:22:45 CEST" saveUser="constantin">
   <Conditions>
     <Condition uId="16485860137989812">
       <Title language="English" value="State"/>
@@ -29,8 +29,20 @@
       <Title language="English" value="current element is ..."/>
       <ConditionOccurrences>
         <ConditionOccurrence uId="16501357093449667">
-          <Symbol language="English" value="h"/>
-          <Title language="English" value="header with level x"/>
+          <Symbol language="English" value="h1"/>
+          <Title language="English" value="header with level 1"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16502340393721348">
+          <Symbol language="English" value="h2"/>
+          <Title language="English" value="header with level 2"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16502340589131351">
+          <Symbol language="English" value="h3"/>
+          <Title language="English" value="header with level 3"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="16502340669631354">
+          <Symbol language="English" value="h4"/>
+          <Title language="English" value="header with level 4"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16485857521829591">
           <Symbol language="English" value="img"/>
@@ -64,7 +76,7 @@
       <Text language="English" value="// $$Enum.Plain"/>
     </Condition>
     <Condition uId="16500546477859518">
-      <Title language="English" value="text is  '&amp;nbsp;'"/>
+      <Title language="English" value="text is  none breaking space"/>
     </Condition>
   </Conditions>
   <Actions>
@@ -126,7 +138,7 @@
       </ActionOccurrences>
     </Action>
   </Actions>
-  <Rules lastId="50">
+  <Rules lastId="53">
     <Rule id="44">
       <ConditionOccurrenceLink link="16500619473137147"/>
       <ActionLink link="16500619701157330"/>
@@ -148,6 +160,30 @@
       <ConditionOccurrenceLink link="16501357093449667"/>
       <ActionLink link="16501357452550033"/>
       <ActionOccurrenceLink link="16501357939321160"/>
+      <ActionOccurrenceLink link="16485862497250205"/>
+    </Rule>
+    <Rule id="51">
+      <ConditionOccurrenceLink link="16485860210679875"/>
+      <ConditionLink link="16485942564463023" conditionState="true"/>
+      <ConditionOccurrenceLink link="16502340393721348"/>
+      <ActionOccurrenceLink link="16501357939321160"/>
+      <ActionLink link="16501357452550033"/>
+      <ActionOccurrenceLink link="16485862497250205"/>
+    </Rule>
+    <Rule id="52">
+      <ConditionOccurrenceLink link="16485860210679875"/>
+      <ConditionLink link="16485942564463023" conditionState="true"/>
+      <ConditionOccurrenceLink link="16502340589131351"/>
+      <ActionOccurrenceLink link="16501357939321160"/>
+      <ActionLink link="16501357452550033"/>
+      <ActionOccurrenceLink link="16485862497250205"/>
+    </Rule>
+    <Rule id="53">
+      <ConditionOccurrenceLink link="16485860210679875"/>
+      <ConditionLink link="16485942564463023" conditionState="true"/>
+      <ConditionOccurrenceLink link="16502340669631354"/>
+      <ActionOccurrenceLink link="16501357939321160"/>
+      <ActionLink link="16501357452550033"/>
       <ActionOccurrenceLink link="16485862497250205"/>
     </Rule>
     <Rule id="26">

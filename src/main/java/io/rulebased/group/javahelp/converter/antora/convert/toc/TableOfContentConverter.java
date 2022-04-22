@@ -47,6 +47,11 @@ class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverte
     }
 
     @Override
+    public boolean isSkipTocEnry(TableOfContentConverterModel model) {
+        return model.config.getInput().getOptions().getToc().getSkip().contains(model.tocElement.getAttributeValue("target"));
+    }
+
+    @Override
     public boolean isSaveOriginalFile(TableOfContentConverterModel model) {
         return model.config.getOutput().isSaveOriginalHtmlFile();
     }

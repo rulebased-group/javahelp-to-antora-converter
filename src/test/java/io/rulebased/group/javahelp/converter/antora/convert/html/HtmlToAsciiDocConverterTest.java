@@ -32,6 +32,8 @@ class HtmlToAsciiDocConverterTest {
         Assertions.assertThat(asciidocContent).isNotEmpty();
         Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
 
+        System.out.println(asciidocContent);
+
     }
 
 

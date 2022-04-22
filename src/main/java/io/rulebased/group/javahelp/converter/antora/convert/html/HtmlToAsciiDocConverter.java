@@ -51,14 +51,12 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
     @Override
     public boolean isCurrentElementIs(CurrentElementIs arg0, Model model) {
-        if (arg0 == CurrentElementIs.$001) {
-            return model.currentChildElement.nodeName().startsWith(arg0.getSymbol());
-        }
         return model.currentChildElement.nodeName().equals(arg0.getSymbol());
     }
 
+
     @Override
-    public boolean isTextIsNbsp(Model model) {
+    public boolean isTextIsNoneBreakingSpace(Model model) {
         if (model.currentChildElement instanceof TextNode) {
             return ((TextNode)model.currentChildElement).text().equals("&nbsp;");
         } else {

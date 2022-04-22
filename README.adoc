@@ -1,3 +1,11 @@
 =  JavaHelp to Antora Converter
 
 image:https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml/badge.svg[https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml]
+
+== ToDo
+
+* [x] skip ToC entries
+* [ ] handle nested elemets on html converter
+* [ ] skip elements based on class
+* [ ] eliminate nbsp in text
+* [ ] skip \n text nodes
