@@ -1,5 +1,6 @@
 package io.rulebased.group.javahelp.converter.antora.convert.html;
 
+import io.rulebased.group.javahelp.converter.antora.convert.anchor.IAnchorConverter;
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
 import io.rulebased.group.javahelp.converter.config.ConverterConfig;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
@@ -20,6 +21,7 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
     static final JHTAC_HtmlToAsciiDocConverterRulesEngine rulesEngine = new JHTAC_HtmlToAsciiDocConverterRulesEngine();
     final ILfetLogging lfetLogging;
+    final IAnchorConverter anchorConverter;
 
 
     @Override
@@ -120,8 +122,10 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
     @Override
     public void doExtractAnchor(Model model) {
-        String anchor = model.currentChildElement.attr("href");
-        // model.asciidocContent.add("xref::" + anchor + "]]");
+        String anchor = anchorConverter.convert((Element) model.currentChildElement);
+        if ( anchor != null && !anchor.isEmpty()) {
+            model.asciidocContent.add(anchor);
+        }
     }
 
     @Override

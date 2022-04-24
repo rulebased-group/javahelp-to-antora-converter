@@ -1,5 +1,6 @@
 package io.rulebased.group.javahelp.converter.antora.convert.html;
 
+import io.rulebased.group.javahelp.converter.antora.convert.anchor.IAnchorConverter;
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
 import io.rulebased.group.javahelp.converter.config.ConverterConfig;
 import io.rulebased.group.javahelp.converter.config.OutputConfig;
@@ -20,7 +21,7 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
 
 
     @Test
-    void execute() {
+    void aktionsanzeigeteil1() {
 
         ConverterConfig config = new ConverterConfig();
         config.setOutput(new OutputConfig());
@@ -28,7 +29,7 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         config.getOutput().setEncoding(StandardCharsets.UTF_8);
 
 
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this).execute(config, new TestFileFacade(), "aktionsanzeigeteil1.htm");
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, new TestFileFacade(), "aktionsanzeigeteil1.htm");
         System.out.println(asciidocContent);
         Assertions.assertThat(asciidocContent).isNotEmpty();
         Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
@@ -36,9 +37,35 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
 
     }
 
+    @Test
+    void allgemeinegrundlagen1() {
+
+        ConverterConfig config = new ConverterConfig();
+        config.setOutput(new OutputConfig());
+        config.getOutput().setSaveOriginalHtmlFile(true);
+        config.getOutput().setEncoding(StandardCharsets.UTF_8);
+
+
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, new TestFileFacade(), "allgemeinegrundlagen1.htm");
+        System.out.println(asciidocContent);
+        Assertions.assertThat(asciidocContent).isNotEmpty();
+        Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Allgemeine Grundlagen");
+
+
+    }
+
     @Override
     public <T> void trace(String lfet, String version, int currentRule, int maxRules, T model) {
-        System.out.println(lfet + " - " + currentRule + " / " + maxRules + " - " + ((HtmlToAsciiDocConverter.Model)model).currentChildElement);
+        switch (lfet) {
+            case "JHTAC_HtmlToAsciiDocConverter": {
+                System.out.println(lfet + " - " + currentRule + " / " + maxRules + " - " + ((HtmlToAsciiDocConverter.Model) model).currentChildElement);
+                break;
+            }
+            default: {
+                System.out.println(lfet + " - " + currentRule + " / " + maxRules);
+                break;
+            }
+        }
     }
 
 

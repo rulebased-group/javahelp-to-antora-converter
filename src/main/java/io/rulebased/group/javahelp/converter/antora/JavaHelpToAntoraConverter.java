@@ -3,6 +3,7 @@ package io.rulebased.group.javahelp.converter.antora;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import io.rulebased.group.javahelp.converter.antora.convert.anchor.IAnchorConverter;
 import io.rulebased.group.javahelp.converter.antora.convert.html.IHtmlConverter;
 import io.rulebased.group.javahelp.converter.antora.convert.images.IImageConverter;
 import io.rulebased.group.javahelp.converter.antora.convert.toc.IToCConverter;
@@ -25,7 +26,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
 
     JavaHelpToAntoraConverter(ILfetLogging lfetLogging) {
         this.lfetLogging = lfetLogging;
-        toCConverter = IToCConverter.create(lfetLogging, IImageConverter.create(lfetLogging), IHtmlConverter.create(lfetLogging));
+        toCConverter = IToCConverter.create(lfetLogging, IImageConverter.create(lfetLogging), IHtmlConverter.create(lfetLogging, IAnchorConverter.create(lfetLogging)));
     }
 
 
