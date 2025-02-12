@@ -86,11 +86,14 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     @Override
     public void doDeleteModulesDirectory(JavaHelpToAntoraConverterModel model) {
         try {
-            //noinspection ResultOfMethodCallIgnored
-            Files.walk(model.config.getOutput().getDirectory().toPath())
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
+            File outputDir = model.config.getOutput().getDirectory();
+            if (outputDir.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                Files.walk(outputDir.toPath())
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+            }
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Unknown error on deleting output directory", e);
         }

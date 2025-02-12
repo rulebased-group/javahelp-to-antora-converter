@@ -28,12 +28,15 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         config.getOutput().setSaveOriginalHtmlFile(true);
         config.getOutput().setEncoding(StandardCharsets.UTF_8);
 
+        TestFileFacade testFileFacade = new TestFileFacade();
 
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, new TestFileFacade(), "aktionsanzeigeteil1.htm");
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "aktionsanzeigeteil1.htm");
         System.out.println(asciidocContent);
+
+        testFileFacade.writeAdocFile("aktionsanzeigeteil1.htm",asciidocContent);
+
         Assertions.assertThat(asciidocContent).isNotEmpty();
         Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
-
 
     }
 
@@ -45,9 +48,13 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         config.getOutput().setSaveOriginalHtmlFile(true);
         config.getOutput().setEncoding(StandardCharsets.UTF_8);
 
+        TestFileFacade testFileFacade = new TestFileFacade();
 
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, new TestFileFacade(), "allgemeinegrundlagen1.htm");
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "allgemeinegrundlagen1.htm");
         System.out.println(asciidocContent);
+
+        testFileFacade.writeAdocFile("allgemeinegrundlagen1.htm",asciidocContent);
+
         Assertions.assertThat(asciidocContent).isNotEmpty();
         Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Allgemeine Grundlagen");
 
@@ -89,6 +96,20 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         public String getContentOfFile(String path2File) throws InputFacadeRuntimeException {
             try {
                 return Files.readString(Path.of("src/test/resources/convert/html", path2File), StandardCharsets.ISO_8859_1);
+            } catch (IOException e) {
+                throw new InputFacadeRuntimeException("Error while reading file", e);
+            }
+        }
+
+        public void writeAdocFile(String path2File, List<String> contentLines) throws InputFacadeRuntimeException {
+            try {
+                StringBuffer sb = new StringBuffer();
+                for (String line : contentLines) {
+                    if (sb.length() > 0) {sb.append("\n\n");}
+                    sb.append(line);
+                }
+                Files.writeString(Path.of("src/test/resources/convert/html",
+                    path2File.replaceAll("(?i)\\.html?$",".adoc")), sb.toString(), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 throw new InputFacadeRuntimeException("Error while reading file", e);
             }

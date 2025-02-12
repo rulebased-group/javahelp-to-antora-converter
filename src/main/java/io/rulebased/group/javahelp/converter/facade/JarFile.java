@@ -48,7 +48,7 @@ public class JarFile implements InputFacade {
     @Override
     public String getContentOfFile(String path2File) throws InputFacadeRuntimeException {
         try {
-            return IOUtils.toString(this.source.getInputStream(this.source.getEntry(path2File)), this.encoding);
+            return IOUtils.toString(this.source.getInputStream(this.source.getEntry(normalizeZipPath(path2File))), this.encoding);
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Failed to read content from zip file", e);
         }
@@ -57,14 +57,23 @@ public class JarFile implements InputFacade {
     @Override
     public InputStream getInputstream(String path2File) throws InputFacadeRuntimeException {
         try {
-            return this.source.getInputStream(this.source.getEntry(path2File));
+            return this.source.getInputStream(this.source.getEntry(normalizeZipPath(path2File)));
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Failed to read content from zip file", e);
         }
     }
 
     @Override
-    public boolean isExistFile(Path fileName) {
-        return this.source.getEntry(fileName.toString()) != null;
+    public boolean isExistFile(Path filePath) {
+        String fileName = normalizeZipPath(filePath.toString());
+        boolean result = this.source.getEntry(fileName) != null;
+        if (!result) {
+            System.out.println("file not found in JAR: " + fileName);
+        }
+        return result;
+    }
+
+    private String normalizeZipPath(String path) {
+        return path.replace('\\', '/');
     }
 }

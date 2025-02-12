@@ -1,0 +1,32 @@
+LFET:
+
+  ide.default: Java
+
+  ide.Java:
+    enabled: true
+    BaseOfVersion: DT
+    Package: io.rulebased.group.javahelp.converter.antora
+    src.path: ${project.root}/../java/${Package}
+    ini.path: '""'
+
+    Interface:
+      enabled: true
+      Name: ${dtName}DT
+      Generic: true
+      RuleGroups: true
+      IgnoreQmark: true
+      # RuleID: trace
+      Modifier: '""'
+      MethodModifier: '""'
+      # TraceAfterRule: true
+      Annotations: javax.annotation.Generated("LF-ET"), SuppressWarnings("UnnecessaryFullyQualifiedName")
+      Language: English
+
+    InterfaceRulesClass:
+      Name: ${dtName}RulesEngine
+      Modifier: '""'
+      MethodModifier: public
+      Annotations: javax.annotation.Generated("LF-ET"), SuppressWarnings("ConstantConditions")
+
+    InterfaceEnum:
+      001: Symbol; Title; IncludeTagsText = $$Enum.Plain; MethodName = EnumName;

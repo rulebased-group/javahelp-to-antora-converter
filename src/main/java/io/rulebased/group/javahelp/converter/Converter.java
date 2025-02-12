@@ -68,7 +68,6 @@ public class Converter implements ConverterDT<Converter.ConverterModel>, ILfetLo
         }
     }
 
-
     @Override
     public void doReadConfigFileAsYaml(ConverterModel model) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -77,7 +76,6 @@ public class Converter implements ConverterDT<Converter.ConverterModel>, ILfetLo
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Unknown error occured while reading converter config.yaml file", e);
         }
-
     }
 
     @Override
