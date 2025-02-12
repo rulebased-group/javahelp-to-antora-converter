@@ -61,6 +61,26 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
 
     }
 
+
+    @Test
+    void projectini_vordefinierte_standard_schluessel() {
+
+        ConverterConfig config = new ConverterConfig();
+        config.setOutput(new OutputConfig());
+        config.getOutput().setSaveOriginalHtmlFile(true);
+        config.getOutput().setEncoding(StandardCharsets.UTF_8);
+
+        TestFileFacade testFileFacade = new TestFileFacade();
+
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "projectini_vordefinierte_standard_schluessel.htm");
+        System.out.println(asciidocContent);
+
+        testFileFacade.writeAdocFile("projectini_vordefinierte_standard_schluessel.htm",asciidocContent);
+
+        Assertions.assertThat(asciidocContent).isNotEmpty();
+//        Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Allgemeine Grundlagen");
+    }
+
     @Override
     public <T> void trace(String lfet, String version, int currentRule, int maxRules, T model) {
         switch (lfet) {
@@ -103,9 +123,9 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
 
         public void writeAdocFile(String path2File, List<String> contentLines) throws InputFacadeRuntimeException {
             try {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 for (String line : contentLines) {
-                    if (sb.length() > 0) {sb.append("\n\n");}
+                    if (sb.length() > 0) {sb.append("\n");}
                     sb.append(line);
                 }
                 Files.writeString(Path.of("src/test/resources/convert/html",

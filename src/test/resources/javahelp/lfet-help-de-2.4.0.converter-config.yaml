@@ -3,11 +3,53 @@ input:
   encoding: "ISO_8859_1"
   tableOfContentFileName: "LF-ET-toc.xml"
 
-
 output:
   directory: "target/generated-resources/lfet-help-de-2.4.0"
+
   antora:
-    name: "LF-ET"
-    title: "Das Entscheidungstabellen-Tool"
-    version: "2.4.0"
-    start_page: "Start"
+
+    name: lfet-de
+    title: LF-ET
+    version: 2.4.0
+    start_page: Die_Online_Hilfe_in_LF-ET:online_hilfe_in_lf_et.htm.adoc
+
+    nav:
+      - modules/Die_Online_Hilfe_in_LF-ET/nav.adoc
+      - modules/Produktprofil/nav.adoc
+      - modules/Erste_Schritte/nav.adoc
+      - modules/Allgemeine_Grundlagen/nav.adoc
+      - modules/Die_Bildschirme/nav.adoc
+      - modules/Bedingungen_und_Aktionen/nav.adoc
+      - modules/Erweiterte_Bedingungen_und_Aktionen_Wertetabellen/nav.adoc
+      - modules/Regeln/nav.adoc
+      - modules/Regelgruppen/nav.adoc
+      - modules/Grundfunktionen/nav.adoc
+      - modules/Texte/nav.adoc
+      - modules/Simulation/nav.adoc
+      - modules/Programmgenerierung/nav.adoc
+      - modules/Testfallgenerierung/nav.adoc
+    # - modules/Kommandozeilen-Modus/nav.adoc
+    # - modules/LFET.Project.ini/nav.adoc
+    # - modules/Hinweise_und_Tipps/nav.adoc
+    # - modules/Release_Notes/nav.adoc
+
+    asciidoc:
+      attributes:
+        experimental: 1
+        showTodo: 0
+        page-pagination: 1
+        sectanchors: true
+        sectlinks: false
+        sectnumlevels: -1
+        dollar: $
+        dollarbracket: ${
+        le: <= # less equal
+        ge: => # greater equal
+        2dollars: $$
+        3dots: ...
+        cliParmTableSetup: 'cols="40,~",options="header"'
+        sbls: '&#91;'
+        sbrs: '&#93;'
+        minus: '&minus;'
+        colon: '&colon;'
+        url-picture-credits: https://www.lohrfink.de/en/company/imprint/#tab-4d3823fc0c3fb3b8b68

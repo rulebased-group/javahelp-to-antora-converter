@@ -110,9 +110,37 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     }
 
     @Override
+    public void doTableHeaderEqual(TableHeaderEqual arg0, Model model) {
+        switch (arg0) {
+            case $001: {
+                model.tableHeader = false;
+                break;
+            }
+            case $002: {
+                model.tableHeader = true;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void doTableCountColumnsEqual(TableCountColumnsEqual arg0, Model model) {
+        switch (arg0) {
+            case $001: {
+                model.tableColumnCount = 0;
+                break;
+            }
+            case $002: {
+                model.tableColumnCount++;
+                break;
+            }
+        }
+    }
+
+    @Override
     public void doExtractImageSrc(Model model) {
         String imageSrc = model.currentChildElement.attr("src");
-        model.asciidocContent.add("image::" + imageSrc.substring(imageSrc.indexOf("/") + 1) + "[]");
+        model.addToAsciiDocContent("image::" + imageSrc.substring(imageSrc.indexOf("/") + 1) + "[]");
     }
 
     @Override
@@ -123,16 +151,41 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     @Override
     public void doExtractAnchor(Model model) {
         String anchor = anchorConverter.convert((Element) model.currentChildElement);
-        if ( anchor != null && !anchor.isEmpty()) {
-            model.asciidocContent.add(anchor);
+        if (anchor != null && !anchor.isEmpty()) {
+            model.addToAsciiDocContent(anchor);
+        }
+    }
+
+    @Override
+    public void doAddToAdocContent(AddToAdocContent arg0, Model model) {
+        switch (arg0) {
+            case $001: {
+                model.addToAsciiDocContent("", "[cols=???]", "|===", "");
+                break;
+            }
+            case $002: {
+                model.addToAsciiDocContent("");
+                break;
+            }
+            default: {
+            }
         }
     }
 
     @Override
     public void doProcessElement(Model model) {
+
         Model processElementModel = new Model((Element) model.currentChildElement, model.currentHeaderLevel);
+        processElementModel.tableHeader = model.tableHeader;
+
         rulesEngine.execute(this, processElementModel);
+
+        model.addToAsciiDocContent("");
         model.asciidocContent.addAll(processElementModel.asciidocContent);
+        model.addToAsciiDocContent("");
+
+        model.tableHeader = processElementModel.tableHeader;
+        model.tableColumnCount = processElementModel.tableColumnCount;
     }
 
     @Override
@@ -145,19 +198,37 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
                 } else {
                     value = ((Element) model.currentChildElement).text();
                 }
-                model.asciidocContent.add("=".repeat(model.currentHeaderLevel) + " " + value);
+                model.addToAsciiDocContent("=".repeat(model.currentHeaderLevel) + " " + value);
                 break;
             }
             case $004: {
                 if (model.currentChildElement instanceof TextNode) {
-                    model.asciidocContent.add(((TextNode) model.currentChildElement).text());
+                    model.addToAsciiDocContent(((TextNode) model.currentChildElement).text());
                 } else {
-                    model.asciidocContent.add(((Element) model.currentChildElement).text());
+                    model.addToAsciiDocContent(((Element) model.currentChildElement).text());
                 }
                 break;
             }
+            case $005: {
+                for (int i = model.asciidocContent.size() - 1; i > 0; i--) {
+                    if (model.asciidocContent.get(i).startsWith("[cols=???]")) {
+                        model.asciidocContent.remove(i);
+                        model.asciidocContent.add(i, String.format("[cols=%s%s]" //
+                                , model.tableColumnCount //
+                                , model.tableHeader ? ",options=\"header\"" : "" //
+                            )
+                        );
+                    }
+                }
+                model.addToAsciiDocContent("", "|===", "");
+                break;
+            }
+            case $006: {
+                model.addToAsciiDocContent("| " + ((Element) model.currentChildElement).text());
+                break;
+            }
             default: {
-                model.asciidocContent.add(arg0.getSymbol() + ((Element) model.currentChildElement).text() + arg0.getSymbol());
+                model.addToAsciiDocContent(arg0.getSymbol() + ((Element) model.currentChildElement).text() + arg0.getSymbol());
             }
         }
     }
@@ -169,7 +240,7 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
     @Override
     public void doLinebreak(Model model) {
-        model.asciidocContent.add(System.lineSeparator());
+        model.addToAsciiDocContent(System.lineSeparator());
     }
 
     @Override
@@ -190,7 +261,9 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
         Element element;
         Node currentChildElement;
         Iterator<Node> childElementsIt;
-        List<String> asciidocContent = new ArrayList<>(100);
+        private final List<String> asciidocContent = new ArrayList<>(100);
+        boolean tableHeader;
+        int tableColumnCount;
 
         Model(Document document) {
             this.document = document;
@@ -199,6 +272,22 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
         Model(Element element, int currentHeaderLevel) {
             this.element = element;
             this.currentHeaderLevel = currentHeaderLevel;
+        }
+
+        public void addToAsciiDocContent(String... lines) {
+            if (lines != null) {
+                for (String line : lines) {
+                    if (line != null && !line.isEmpty()) {
+                        asciidocContent.add(
+                            line
+                                .replaceAll("[$][{]", "{dollarbracket}")
+                        );
+                    } else if (!asciidocContent.isEmpty() && !asciidocContent.get(asciidocContent.size() - 1).isEmpty()) {
+                        // avoid multiple empty lines
+                        asciidocContent.add("");
+                    }
+                }
+            }
         }
 
     }
