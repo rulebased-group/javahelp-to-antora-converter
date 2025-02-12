@@ -1,0 +1,32 @@
+= Allgemeine Grundlagen
+
+Die Entscheidungstabellentechnik wurde ab 1957 in den USA von einer Projektgruppe bei der General Electric Company entwickelt.
+
+Danach befasste sich die CODASYL (Conference On Data Systems Langugages) auch mit der 
+Entwicklung einer systemorientierten Programmiersprache auf der Basis von Entscheidungstabellen.
+
+Die Theorie der Entscheidungstabellen wurde in den folgenden Jahren systematisch ausgearbeitet und ihr Einsatzgebiet reicht von der Analyse Ã¼ber den Programmentwurf bis hin zur Generierung von Programmcode.
+
+Diese Methode vermeidet die schwerwiegenden Nachteile konventioneller Vorgehensweisen. Entscheidungstabellen beschrÃ¤nken sich auf die Darstellung von Entscheidungsregeln. Sie beschreiben sehr Ã¼bersichtlich die Entscheidungssituation, also gerade jene Teilprozesse, die mit konventionellen Methoden nur unzureichend dargestellt werden kÃ¶nnen.
+
+Tabellen (nicht nur Entscheidungstabellen) sind immer Ã¼bersichtlicher und damit bereits leichter zu erfassen als eine verbale Darstellung des gleichen Sachverhalts.
+
+Eine Entscheidungstabelle ist auf ein Minimum an Symbolen und Symbolbeziehungen beschrÃ¤nkt, erleichtert deshalb die Standardisierung und ermÃ¶glicht eine ausgezeichnete Dokumentation der Problemanalyse und –lÃ¶sung.
+
+Heute spricht man ganz allgemein von der Entscheidungstabellentechnik. Die Entscheidungstabelle ist als Beschreibungsmittel fÃ¼r formalisierbare Entscheidungsprozesse weltweit genormt, z.B. in DIN 66 241 oder CSA Z243.1-1970.
+
+Inhalt dieses Kapitels:
+
+xref:definition1.htm.adoc[Definition]
+
+xref:aufbaueinerentscheidungstabelle1.htm.adoc[Aufbau einer Entscheidungstabelle]
+
+xref:entscheidungstabellenarten1.htm.adoc[Entscheidungstabellenarten]
+
+xref:standardlogik1.htm.adoc[Standardlogik]
+
+xref:prfbarkeit1.htm.adoc[PrÃ¼fbarkeit]
+
+xref:entscheidungstabellen_verknpfen.htm.adoc[Entscheidungstabellen verknÃ¼pfen]
+
+xref:zusammenfassung1.htm.adoc[Zusammenfassung]

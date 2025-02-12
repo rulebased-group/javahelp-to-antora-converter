@@ -59,12 +59,20 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
 
     @Override
     public void doExtractAnchorText(AnchorModel model) {
-        model.anchorText = ((TextNode)model.currentNode).text();
+        model.anchorText = ((TextNode) model.currentNode).text();
     }
 
     @Override
     public void doCreateXrefLink(AnchorModel model) {
-        model.asciidoc.add("xref:" + model.anchorTarget + "[" + model.anchorText + "]");
+        String anchorTarget = model.anchorTarget;
+
+        if (anchorTarget.matches(".*\\.htm$")) {
+            // .htm is the generated file extension by DocToHelp which is the authoring system used for the german LF-ET user manual
+            // so it should be pretty save to add ".adoc"
+            // TODO maybe we should use and maintain a "generated document" list including paths etc.
+            anchorTarget = anchorTarget + ".adoc";
+        }
+        model.asciidoc.add("xref:" + anchorTarget + "[" + model.anchorText + "]");
     }
 
     @Override
