@@ -3,6 +3,7 @@ package io.rulebased.group.javahelp.converter.facade;
 import io.rulebased.group.javahelp.converter.antora.exception.JavaHelpToAntoraConverterException;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Document;
+import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
@@ -12,6 +13,8 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -19,6 +22,8 @@ public class JarFile implements InputFacade {
 
     final ZipFile source;
     final Charset encoding;
+
+    final Map<String, String> mapFileNameToModule = new TreeMap<>();
 
     public JarFile(File inputFile, Charset encoding) throws JavaHelpToAntoraConverterException {
         try {
@@ -75,5 +80,26 @@ public class JarFile implements InputFacade {
 
     private String normalizeZipPath(String path) {
         return path.replace('\\', '/');
+    }
+
+    @Override
+    public void addFileMappings(String baseDir, Element e) {
+
+        String target = e.getAttributeValue("target");
+
+        mapFileNameToModule.put(target, baseDir);
+        if (target.matches(".*\\.htm$")){
+            mapFileNameToModule.put(target+".adoc", baseDir);
+            mapFileNameToModule.put(target.replaceAll("\\.htm$",".adoc"), baseDir);
+        }
+
+        for (Element child : e.getChildren("tocitem")) {
+            addFileMappings(baseDir, child);
+        }
+    }
+
+    @Override
+    public String getAntoraModuleName(String antoraFileName){
+        return mapFileNameToModule.get(antoraFileName);
     }
 }

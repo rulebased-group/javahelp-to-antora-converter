@@ -2,6 +2,10 @@
 
 image:https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml/badge.svg[https://github.com/rulebased-group/javahelp-to-antora-converter/actions/workflows/ci.yaml]
 
+== Generate lfet-docu-de
+
+ src/test/java/io/rulebased/group/javahelp/converter/ConverterTest.java
+
 == ToDo
 
 * [x] skip ToC entries

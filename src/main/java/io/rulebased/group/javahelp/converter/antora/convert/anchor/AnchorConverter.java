@@ -1,6 +1,7 @@
 package io.rulebased.group.javahelp.converter.antora.convert.anchor;
 
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
+import io.rulebased.group.javahelp.converter.facade.InputFacade;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
@@ -34,17 +35,22 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
 
     @Override
     public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, AnchorModel model) {
+        final boolean result;
+
         switch (arg0) {
             case $001: {
-                return model.currentNode instanceof TextNode;
+                result = model.currentNode instanceof TextNode;
+                break;
             }
             case $002: {
-                return model.currentNode instanceof Element;
+                result = model.currentNode instanceof Element;
+                break;
             }
             default: {
-                return false;
+                result = false;
             }
         }
+        return result;
     }
 
     @Override
@@ -59,12 +65,29 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
 
     @Override
     public void doExtractAnchorText(AnchorModel model) {
-        model.anchorText = ((TextNode) model.currentNode).text();
+        if (model.currentNode instanceof TextNode) {
+            model.anchorText = model.anchorText + ((TextNode) model.currentNode).text();
+        } else if (model.currentNode instanceof Element) {
+            String text = ((Element) model.currentNode).text();
+            if (!text.trim().isEmpty()) {
+                switch (model.currentNode.nodeName()) {
+                    case "i":
+                        text = "_" + text + "_";
+                        break;
+                    case "b":
+                        text = "*" + text + "*";
+                        break;
+                }
+                model.anchorText = model.anchorText + text;
+            }
+        }
     }
 
     @Override
     public void doCreateXrefLink(AnchorModel model) {
+
         String anchorTarget = model.anchorTarget;
+        String module = model.inputFacade != null ? model.inputFacade.getAntoraModuleName(anchorTarget) + ":" : "";
 
         if (anchorTarget.matches(".*\\.htm$")) {
             // .htm is the generated file extension by DocToHelp which is the authoring system used for the german LF-ET user manual
@@ -72,7 +95,9 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
             // TODO maybe we should use and maintain a "generated document" list including paths etc.
             anchorTarget = anchorTarget + ".adoc";
         }
-        model.asciidoc.add("xref:" + anchorTarget + "[" + model.anchorText + "]");
+
+        String result = "xref:" + module + anchorTarget + "[" + model.anchorText + "]";
+        model.asciidoc.add(result);
     }
 
     @Override
@@ -81,8 +106,8 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
     }
 
     @Override
-    public String convert(Element element) {
-        AnchorModel model = new AnchorModel(element);
+    public String convert(Element element, InputFacade inputFacade) {
+        AnchorModel model = new AnchorModel(element, inputFacade);
         rulesEngine.execute(this, model);
         return String.join("", model.asciidoc);
     }

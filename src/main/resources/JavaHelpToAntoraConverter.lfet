@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.2.0 (220224a)" language="English" saveDate="2022.04.11 at 23:01:29 CEST" saveUser="constantin">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.13 at 15:43:36 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="11446800829457960">
       <Title language="German" value="State"/>
@@ -8,14 +8,20 @@
         <ConditionOccurrence uId="16476534883142598">
           <Symbol language="German" value="INIT"/>
           <Title language="German" value="Initialisierung"/>
-          <Symbol language="English" value="1"/>
-          <Title language="English" value="1"/>
+          <Symbol language="English" value="ImpToC"/>
+          <Title language="English" value="Import TOC-File from ZIP-/JAR-File"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="17394562188928777">
+          <Symbol language="German" value="N"/>
+          <Title language="German" value="Nein"/>
+          <Symbol language="English" value="CrMaps"/>
+          <Title language="English" value="Create file/path mappings JavaHelp &lt;-&gt; Antora"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16476534883162600">
           <Symbol language="German" value="N"/>
           <Title language="German" value="Nein"/>
-          <Symbol language="English" value="2"/>
-          <Title language="English" value="2"/>
+          <Symbol language="English" value="Convert"/>
+          <Title language="English" value="Convert all entries from TOC-File to Antora"/>
         </ConditionOccurrence>
       </ConditionOccurrences>
       <Title language="English" value="Step"/>
@@ -38,6 +44,12 @@
         </ActionOccurrence>
       </ActionOccurrences>
       <Text language="English" value="// $$Enum.Plain"/>
+    </Action>
+    <Action uId="17394577842219322">
+      <Title language="English" value="create all mappings for toc entry"/>
+    </Action>
+    <Action uId="17394577433789319">
+      <Title language="English" value="reset toc iterator"/>
     </Action>
     <Action uId="16477842874904176">
       <Title language="English" value="create modul with name of table of content entry"/>
@@ -63,25 +75,29 @@
     <Action uId="11446800829627977">
       <Title language="German" value="State"/>
       <ActionOccurrences>
+        <ActionOccurrence uId="16497106619049011">
+          <Symbol language="English" value="Convert"/>
+          <Title language="English" value="Convert all entries from TOC-File to Antora"/>
+        </ActionOccurrence>
+        <ActionOccurrence uId="17394562949738902">
+          <Symbol language="English" value="CrMaps"/>
+          <Title language="English" value="Create file/path mappings JavaHelp &lt;-&gt; Antora"/>
+        </ActionOccurrence>
         <ActionOccurrence uId="16476532769872529">
           <Symbol language="German" value="E"/>
           <Title language="German" value="Exit"/>
-          <Symbol language="English" value="E"/>
+          <Symbol language="English" value="Exit"/>
           <Title language="English" value="Exit"/>
-        </ActionOccurrence>
-        <ActionOccurrence uId="16497106619049011">
-          <Symbol language="English" value="2"/>
-          <Title language="English" value="2"/>
         </ActionOccurrence>
       </ActionOccurrences>
       <Title language="English" value="Step"/>
     </Action>
   </Actions>
-  <Rules lastId="25">
-    <Rule id="25">
+  <Rules lastId="30">
+    <Rule id="26">
       <ConditionOccurrenceLink link="16476534883142598"/>
       <ConditionLink link="16476536747033014" conditionState="true"/>
-      <ActionOccurrenceLink link="16497106619049011"/>
+      <ActionOccurrenceLink link="17394562949738902"/>
       <ActionLink link="16477846196604696"/>
       <ActionLink link="16480323885021252"/>
     </Rule>
@@ -90,6 +106,18 @@
       <ConditionLink link="16476536747033014" conditionState="false"/>
       <ActionOccurrenceLink link="16476537258743097"/>
       <ActionOccurrenceLink link="16476532769872529"/>
+    </Rule>
+    <Rule id="29">
+      <ConditionOccurrenceLink link="17394562188928777"/>
+      <ActionOccurrenceLink link="17394562949738902"/>
+      <ConditionLink link="16477842321463886" conditionState="true"/>
+      <ActionLink link="17394577842219322"/>
+    </Rule>
+    <Rule id="30">
+      <ConditionOccurrenceLink link="17394562188928777"/>
+      <ActionOccurrenceLink link="16497106619049011"/>
+      <ConditionLink link="16477842321463886" conditionState="false"/>
+      <ActionLink link="17394577433789319"/>
     </Rule>
     <Rule id="24">
       <ConditionOccurrenceLink link="16476534883162600"/>

@@ -12,8 +12,8 @@ class AnchorConverterTest implements ILfetLogging {
     @Test
     void convert() {
         Document anchorDocument = Jsoup.parse("<a href=\"link\">text</a>");
-        assertThat(new AnchorConverter(this).convert(anchorDocument.select("a").first())).isEqualTo("xref:link[text]");
-        assertThat(new AnchorConverter(this).convert(Jsoup.parse("<a href=\"link\"><img src=\"button.gif\"></a>").select("a").first())).isEmpty();
+        assertThat(new AnchorConverter(this).convert(anchorDocument.select("a").first(),null)).isEqualTo("xref:link[text]");
+        assertThat(new AnchorConverter(this).convert(Jsoup.parse("<a href=\"link\"><img src=\"button.gif\"></a>").select("a").first(),null)).isEmpty();
     }
 
     @Override

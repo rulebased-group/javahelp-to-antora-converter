@@ -4,34 +4,34 @@ input:
   tableOfContentFileName: "LF-ET-toc.xml"
 
 output:
-  directory: "target/generated-resources/lfet-help-de-2.4.0"
+  directory: "src/test/resources/docs"
 
   antora:
 
     name: lfet-de
     title: LF-ET
     version: 2.4.0
-    start_page: Die_Online_Hilfe_in_LF-ET:online_hilfe_in_lf_et.htm.adoc
+    start_page: die_online_hilfe_in_lfet:online_hilfe_in_lf_et.htm.adoc
 
-    nav:
-      - modules/Die_Online_Hilfe_in_LF-ET/nav.adoc
-      - modules/Produktprofil/nav.adoc
-      - modules/Erste_Schritte/nav.adoc
-      - modules/Allgemeine_Grundlagen/nav.adoc
-      - modules/Die_Bildschirme/nav.adoc
-      - modules/Bedingungen_und_Aktionen/nav.adoc
-      - modules/Erweiterte_Bedingungen_und_Aktionen_Wertetabellen/nav.adoc
-      - modules/Regeln/nav.adoc
-      - modules/Regelgruppen/nav.adoc
-      - modules/Grundfunktionen/nav.adoc
-      - modules/Texte/nav.adoc
-      - modules/Simulation/nav.adoc
-      - modules/Programmgenerierung/nav.adoc
-      - modules/Testfallgenerierung/nav.adoc
-    # - modules/Kommandozeilen-Modus/nav.adoc
-    # - modules/LFET.Project.ini/nav.adoc
-    # - modules/Hinweise_und_Tipps/nav.adoc
-    # - modules/Release_Notes/nav.adoc
+#    nav:
+#      - modules/Die_Online_Hilfe_in_LF-ET/nav.adoc
+#      - modules/Produktprofil/nav.adoc
+#      - modules/Erste_Schritte/nav.adoc
+#      - modules/Allgemeine_Grundlagen/nav.adoc
+#      - modules/Die_Bildschirme/nav.adoc
+#      - modules/Bedingungen_und_Aktionen/nav.adoc
+#      - modules/Erweiterte_Bedingungen_und_Aktionen_Wertetabellen/nav.adoc
+#      - modules/Regeln/nav.adoc
+#      - modules/Regelgruppen/nav.adoc
+#      - modules/Grundfunktionen/nav.adoc
+#      - modules/Texte/nav.adoc
+#      - modules/Simulation/nav.adoc
+#      - modules/Programmgenerierung/nav.adoc
+#      - modules/Testfallgenerierung/nav.adoc
+#    # - modules/Kommandozeilen-Modus/nav.adoc
+#    # - modules/LFET.Project.ini/nav.adoc
+#    # - modules/Hinweise_und_Tipps/nav.adoc
+#    # - modules/Release_Notes/nav.adoc
 
     asciidoc:
       attributes:

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+
+  <Properties>
+    <Property name="logPath">target/logging</Property>
+  </Properties>
+
+  <Appenders>
+
+    <Console name="Consol_Appender" target="SYSTEM_OUT">
+      <PatternLayout pattern="%-6r %-5p %c{1} [%t] - %m%n"/>
+    </Console>
+
+    <File name="File_Appender"
+      fileName="${logPath}/logging.txt" append="false">
+<!--  <PatternLayout pattern="%-21d{yyyyMMdd HH:mm:ss:SSS} | %-5p | %-44c{1} | %m%n"/>-->
+      <PatternLayout pattern="%-12d{HH:mm:ss:SSS} | %-26c{1} | %m%n" charset="UTF-8"/>
+    </File>
+
+  </Appenders>
+
+  <Loggers>
+
+    <Logger name="io.rulebased.group" level="DEBUG"/>
+
+    <Root level="DEBUG">
+      <!-- <AppenderRef ref="Consol_Appender"/> -->
+      <AppenderRef ref="File_Appender"/>
+    </Root>
+
+  </Loggers>
+
+</Configuration>

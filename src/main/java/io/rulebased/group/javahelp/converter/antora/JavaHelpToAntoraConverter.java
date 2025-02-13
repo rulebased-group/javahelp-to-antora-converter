@@ -48,6 +48,17 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     }
 
     @Override
+    public void doCreateAllMappingsForTocEntry(JavaHelpToAntoraConverterModel model) {
+        model.inputFacade.addFileMappings(model.getNormalizedModuleName(), model.processingModel.currentTOCElement);
+    }
+
+
+    @Override
+    public void doResetTocIterator(JavaHelpToAntoraConverterModel model) {
+        model.processingModel.tocEntriesIt = null;
+    }
+
+    @Override
     public void doTrace(String dtName, String version, int rules, int rule, JavaHelpToAntoraConverterModel model) {
         lfetLogging.trace(dtName, version, rules, rule, model);
     }
@@ -68,7 +79,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     @Override
     public boolean isNextTableOfContentEntryOnLevel1Exists(JavaHelpToAntoraConverterModel model) {
         if (model.processingModel.tocEntriesIt == null) {
-            model.processingModel.tocEntriesIt = model.processingModel.tableOfContentDocument.getRootElement().getChildren("tocitem").iterator();
+            model.processingModel.tocEntriesIt = model.getTableOfContentDocument().getRootElement().getChildren("tocitem").iterator();
         }
         if (model.processingModel.tocEntriesIt.hasNext()) {
             model.processingModel.currentTOCElement = model.processingModel.tocEntriesIt.next();
@@ -80,7 +91,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
 
     @Override
     public void doReadToCFile(JavaHelpToAntoraConverterModel model) {
-        model.processingModel.tableOfContentDocument = model.inputFacade.getTableOfContentFile(model.config.getInput().getTableOfContentFileName());
+        model.setTableOfContentDocument(model.inputFacade.getTableOfContentFile(model.config.getInput().getTableOfContentFileName()));
     }
 
     @Override
@@ -100,8 +111,18 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     }
 
     @Override
-    public void doAddModuleEntryToNav(JavaHelpToAntoraConverterModel model) {
-        String moduleName = model.processingModel.currentTOCElement.getAttributeValue("text").replaceAll(" ", "_").replaceAll(":", "");
+    public void doAddModuleEntryToAnoraYmlNav(JavaHelpToAntoraConverterModel model) {
+        String moduleName = model.processingModel.currentTOCElement.getAttributeValue("text");
+        moduleName = moduleName
+            .toLowerCase() //
+            .replaceAll("[ .]", "_") //
+            .replaceAll(":", "") //
+            .replaceAll("ä", "ae") //
+            .replaceAll("ö", "oe") //
+            .replaceAll("ü", "ue") //
+            .replaceAll("ß", "ss") //
+            .replaceAll("lf-et", "lfet") //
+        ;
         model.config.getOutput().getAntoraYml().getNav().add("modules/" + moduleName + "/nav.adoc");
     }
 
@@ -109,7 +130,9 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpT
     public void doSaveAntoraYmlToDocsDirectory(JavaHelpToAntoraConverterModel model) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
         try {
+
             mapper.writeValue(new File(model.config.getOutput().getDirectory(), "antora.yml"), model.config.getOutput().getAntoraYml());
+
         } catch (IOException e) {
             throw new JavaHelpToAntoraConverterException("Unknown error occured while writing antora.yml file", e);
         }

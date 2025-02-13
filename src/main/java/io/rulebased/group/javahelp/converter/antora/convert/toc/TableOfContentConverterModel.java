@@ -9,7 +9,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.ZipFile;
 
 @ToString
 class TableOfContentConverterModel {
@@ -23,7 +22,7 @@ class TableOfContentConverterModel {
     int currentToCLevel;
     List<String> asciidocContent;
 
-    TableOfContentConverterModel(ConverterConfig config, File moduleDirectory, InputFacade inputFacade, Element tocElement, int currentToCLevel){
+    TableOfContentConverterModel(ConverterConfig config, File moduleDirectory, InputFacade inputFacade, Element tocElement, int currentToCLevel) {
         this.config = config;
         this.inputFacade = inputFacade;
         this.moduleDirectory = moduleDirectory;
@@ -49,7 +48,14 @@ class TableOfContentConverterModel {
     }
 
     String getAdocNavEntry() {
-        return String.format("%s xref:%s[]%s", new String(new char[currentToCLevel]).replace("\0", "*"), getPageName(), System.lineSeparator());
+        String pageRef = getPageName();
+
+        String result = String.format("%s xref:%s[]%s",
+            new String(new char[currentToCLevel]).replace("\0", "*"),
+            pageRef,
+            System.lineSeparator());
+
+        return result;
     }
 
 }

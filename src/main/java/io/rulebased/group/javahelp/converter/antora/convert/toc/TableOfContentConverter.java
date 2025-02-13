@@ -25,7 +25,6 @@ class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverte
     final IImageConverter imageConverter;
     final IHtmlConverter htmlConverter;
 
-
     @Override
     public void execute(ConverterConfig config, File outputModuleDirectory, Element tocElement, InputFacade inputFacade, int currentToCLevel) {
         rulesEngine.execute(this, new TableOfContentConverterModel(config, outputModuleDirectory, inputFacade, tocElement, currentToCLevel));
@@ -107,11 +106,14 @@ class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverte
     @Override
     public void doAddEntryToNav(TableOfContentConverterModel model) {
         try {
-            Files.writeString(model.getNavFile().toPath(), model.getAdocNavEntry(), StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            String navEntry = model.getAdocNavEntry();
+
+            Files.writeString(model.getNavFile().toPath(), navEntry, StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new RuntimeException("Unknown Error", e);
         }
     }
+
 
     @Override
     public void doExtractImages(TableOfContentConverterModel model) {

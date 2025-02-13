@@ -1,6 +1,7 @@
 package io.rulebased.group.javahelp.converter.antora.convert.anchor;
 
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
+import io.rulebased.group.javahelp.converter.facade.InputFacade;
 import org.jsoup.nodes.Element;
 
 public interface IAnchorConverter {
@@ -9,6 +10,6 @@ public interface IAnchorConverter {
         return new AnchorConverter(logger);
     }
 
-    String convert(Element element);
+    String convert(Element element, InputFacade inputFacade);
 
 }

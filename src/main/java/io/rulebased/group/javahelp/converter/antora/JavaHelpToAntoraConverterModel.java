@@ -19,7 +19,6 @@ class JavaHelpToAntoraConverterModel {
 
     InputFacade inputFacade;
 
-
     JavaHelpToAntoraConverterModel(ConverterConfig config, InputFacade inputFacade) {
         this.config = config;
         this.inputFacade = inputFacade;
@@ -29,22 +28,38 @@ class JavaHelpToAntoraConverterModel {
     static class ProcessingModel {
 
         ZipFile zipFile;
-        Document tableOfContentDocument;
+        private Document tableOfContentDocument;
         Iterator<Element> tocEntriesIt;
         Element currentTOCElement;
 
         ZipEntry getTOCFile() {
             return zipFile.getEntry("LF-ET-toc.xml");
         }
+    }
 
+    void setTableOfContentDocument(Document doc) {
+        processingModel.tableOfContentDocument = doc;
+    }
+
+    Document getTableOfContentDocument() {
+        return processingModel.tableOfContentDocument;
     }
 
     File getModulDirectoryName() {
-        String normalizedDirectoryName = processingModel.currentTOCElement.getAttributeValue("text").replaceAll(" ", "_").replaceAll(":","");
-        return Path.of(config.getOutput().getDirectory().getPath(), "modules", normalizedDirectoryName).toFile();
+        return Path.of(config.getOutput().getDirectory().getPath(), "modules", getNormalizedModuleName()).toFile();
     }
 
-
-
+    String getNormalizedModuleName() {
+        return processingModel.currentTOCElement.getAttributeValue("text") //
+            .toLowerCase() //
+            .replaceAll("[ .]", "_") //
+            .replaceAll(":", "") //
+            .replaceAll("ä", "ae") //
+            .replaceAll("ö", "oe") //
+            .replaceAll("ü", "ue") //
+            .replaceAll("ß", "ss") //
+            .replaceAll("lf-et", "lfet") //
+            ;
+    }
 
 }
