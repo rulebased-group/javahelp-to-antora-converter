@@ -17,9 +17,9 @@ import java.nio.file.Path;
 import java.util.Iterator;
 
 @RequiredArgsConstructor
-class HtmlImageExtractor implements JHTAC_ExtractImagesDT<HtmlImageExtractor.HtmlImageExtractorModel>, IImageConverter {
+class HtmlImageExtractor implements ExtractImagesIFace<HtmlImageExtractor.HtmlImageExtractorModel>, IImageConverter {
 
-    static final JHTAC_ExtractImagesRulesEngine rulesEngine = new JHTAC_ExtractImagesRulesEngine();
+    static final ExtractImagesRulesEngine rulesEngine = new ExtractImagesRulesEngine();
     final ILfetLogging lfetLogging;
 
 

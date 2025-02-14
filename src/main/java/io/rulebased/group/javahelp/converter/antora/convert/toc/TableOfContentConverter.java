@@ -18,9 +18,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 @RequiredArgsConstructor
-class TableOfContentConverter implements JHTAC_ToCEntryDT<TableOfContentConverterModel>, IToCConverter {
+class TableOfContentConverter implements ToCEntryIFace<TableOfContentConverterModel>, IToCConverter {
 
-    final static JHTAC_ToCEntryRulesEngine rulesEngine = new JHTAC_ToCEntryRulesEngine();
+    final static ToCEntryRulesEngine rulesEngine = new ToCEntryRulesEngine();
     final ILfetLogging lfetLogging;
     final IImageConverter imageConverter;
     final IHtmlConverter htmlConverter;

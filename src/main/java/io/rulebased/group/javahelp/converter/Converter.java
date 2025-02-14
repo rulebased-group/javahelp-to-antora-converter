@@ -95,7 +95,7 @@ public class Converter implements ConverterDT<Converter.ConverterModel>, ILfetLo
 
     @Override
     public <T> void trace(String lfet, String version, int currentRule, int maxRules, T model) {
-        System.out.println("Trace: " + lfet + " " + version + " " + currentRule + " " + maxRules + " " + model);
+        // System.out.println("Trace: " + lfet + " " + version + " " + currentRule + " " + maxRules + " " + model);
     }
 
 

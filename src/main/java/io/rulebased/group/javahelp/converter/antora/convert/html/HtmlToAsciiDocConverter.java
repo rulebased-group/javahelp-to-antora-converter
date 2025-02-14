@@ -18,12 +18,12 @@ import org.jsoup.nodes.TextNode;
 import java.util.*;
 
 @RequiredArgsConstructor
-class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToAsciiDocConverter.Model>, IHtmlConverter {
+class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsciiDocConverter.Model>, IHtmlConverter {
 
     private static final Logger LOGGER = LogManager.getLogger(HtmlToAsciiDocConverter.class);
     private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();
 
-    static final JHTAC_HtmlToAsciiDocConverterRulesEngine rulesEngine = new JHTAC_HtmlToAsciiDocConverterRulesEngine();
+    static final HtmlToAsciiDocConverterRulesEngine rulesEngine = new HtmlToAsciiDocConverterRulesEngine();
     final ILfetLogging lfetLogging;
     final IAnchorConverter anchorConverter;
 
@@ -56,12 +56,7 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
     @Override
     public boolean isNextElementExists(Model model) {
-        if (model.childElementsIt.hasNext()) {
-            model.currentChildElement = model.childElementsIt.next();
-        } else {
-            model.currentChildElement = null;
-        }
-        return model.currentChildElement != null;
+        return (model.currentChildElement = model.childElementsIt.hasNext() ? model.childElementsIt.next() : null) != null;
     }
 
     @Override
@@ -169,7 +164,12 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
 
         String anchor = anchorConverter.convert((Element) model.currentChildElement, model.inputFacade);
         if (anchor != null && !anchor.isEmpty()) {
-            model.addToAsciiDocContent(anchor);
+            if (model.isLastElementAddedListItemTag()) {
+                model.removeLastAsciiDocContentLine();
+                model.addToAsciiDocContent("* " + anchor);
+            } else {
+                model.addToAsciiDocContent(anchor);
+            }
         }
 
         if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor(...)");
@@ -203,8 +203,8 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
     }
 
     @Override
-    public void doProcessElement(Model model) {
-        // if (logD) LogUtil.mEntry(LOGGER, "doProcessElement(" + model.currentChildElement.nodeName() + ")");
+    public void doProcessChildElements(Model model) {
+        // if (logD) LogUtil.mEntry(LOGGER, "doProcessChildElements(" + model.currentChildElement.nodeName() + ")");
 
         Model processElementModel = new Model((Element) model.currentChildElement, model.currentHeaderLevel);
         processElementModel.inputFacade = model.inputFacade;
@@ -222,7 +222,7 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
         model.tableColumnCount = processElementModel.tableColumnCount;
         model.tableEntries1stColumn.addAll(processElementModel.tableEntries1stColumn);
 
-        // if (logD) LogUtil.mExit(LOGGER, "doProcessElement(" + model.currentChildElement.nodeName() + ")");
+        // if (logD) LogUtil.mExit(LOGGER, "doProcessChildElements(" + model.currentChildElement.nodeName() + ")");
     }
 
     @Override
@@ -377,12 +377,31 @@ class HtmlToAsciiDocConverter implements JHTAC_HtmlToAsciiDocConverterDT<HtmlToA
                     if (line != null && !line.isEmpty()) {
                         asciidocContent.add(line);
                     } else if (!asciidocContent.isEmpty() && !asciidocContent.get(asciidocContent.size() - 1).isEmpty()) {
-                        // avoid multiple empty lines
+                        // just avoid multiple empty lines
                         asciidocContent.add("");
                     }
                 }
             }
         }
+
+        private String getLastAsciiDocContentLine() {
+            return !asciidocContent.isEmpty() ? asciidocContent.get(asciidocContent.size() - 1) : null;
+        }
+
+        private String removeLastAsciiDocContentLine() {
+            final String result;
+            if (!asciidocContent.isEmpty()) {
+                result = asciidocContent.remove(asciidocContent.size() - 1);
+            } else {
+                result = null;
+            }
+            return result;
+        }
+
+        private boolean isLastElementAddedListItemTag() {
+            return Arrays.asList("* ", "- ").contains(getLastAsciiDocContentLine());
+        }
+
 
         public void removeEmptyLinesFromToAsciiDocContentUpFrom(int index) {
             while (index < asciidocContent.size() && asciidocContent.get(index).trim().isEmpty()) {

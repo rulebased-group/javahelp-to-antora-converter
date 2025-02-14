@@ -2,15 +2,26 @@ package io.rulebased.group.javahelp.converter.antora.convert.anchor;
 
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
+import io.rulebased.group.javahelp.converter.utils.LogUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RequiredArgsConstructor
-class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter {
+class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConverter {
+
+    private static final Logger LOGGER = LogManager.getLogger(AnchorConverter.class);
+    private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();
 
     static final ConvertAnchorRulesEngine rulesEngine = new ConvertAnchorRulesEngine();
     final ILfetLogging lfetLogging;
+
+    private boolean isCreateListItem = false;
 
     @Override
     public boolean isCurrentElementIs(CurrentElementIs arg0, AnchorModel model) {
@@ -35,21 +46,60 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
 
     @Override
     public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, AnchorModel model) {
+        if (logD) LogUtil.mEntry(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
+        if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
+
         final boolean result;
 
+        final List<String> selectedNodeNames = Arrays.asList("img");
+
         switch (arg0) {
-            case $001: {
+            case $TN: {
                 result = model.currentNode instanceof TextNode;
                 break;
             }
-            case $002: {
-                result = model.currentNode instanceof Element;
+            case $EL: {
+                result = model.currentNode instanceof Element
+                    && !selectedNodeNames.contains(((Element) model.currentNode).nodeName());
+                break;
+            }
+            case $IMG: {
+                result = model.currentNode instanceof Element
+                    && model.currentNode.nodeName().equalsIgnoreCase("img");
                 break;
             }
             default: {
                 result = false;
             }
         }
+
+        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        if (logD) LogUtil.mExit(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
+        return result;
+    }
+
+    @Override
+    public boolean isImageIs(ImageIs arg0, AnchorModel model) {
+        if (logD) LogUtil.mEntry(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
+        if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
+
+        final boolean result;
+
+        String imgFileName = model.currentNode.attr("src").toLowerCase();
+        final List<String> buttonFileNames = Arrays.asList("button.gif");
+
+        switch (arg0) {
+            case $BUTT: {
+                result = buttonFileNames.contains(imgFileName);
+                break;
+            }
+            default: {
+                result = false;
+            }
+        }
+
+        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        if (logD) LogUtil.mExit(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
         return result;
     }
 
@@ -59,8 +109,18 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
     }
 
     @Override
+    public boolean isIsCreateListItem(AnchorModel model) {
+        return isCreateListItem;
+    }
+
+    @Override
     public void doExtractAnchorTarget(AnchorModel model) {
         model.anchorTarget = model.element.attr("href");
+    }
+
+    @Override
+    public void doSetCreateListItem(AnchorModel model) {
+        isCreateListItem = true;
     }
 
     @Override
@@ -84,10 +144,14 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
     }
 
     @Override
+    public void doCreateListItemPrefix(AnchorModel model) {
+        model.asciidoc.add("* ");
+    }
+
+    @Override
     public void doCreateXrefLink(AnchorModel model) {
 
         String anchorTarget = model.anchorTarget;
-        String module = model.inputFacade != null ? model.inputFacade.getAntoraModuleName(anchorTarget) + ":" : "";
 
         if (anchorTarget.matches(".*\\.htm$")) {
             // .htm is the generated file extension by DocToHelp which is the authoring system used for the german LF-ET user manual
@@ -96,7 +160,13 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
             anchorTarget = anchorTarget + ".adoc";
         }
 
-        String result = "xref:" + module + anchorTarget + "[" + model.anchorText + "]";
+        String result = String.format("%sxref:%s%s[%s]" //
+            , isCreateListItem ? "* " : "" //
+            , model.inputFacade != null ? model.inputFacade.getAntoraModuleName(anchorTarget) + ":" : "" //
+            , anchorTarget //
+            , model.anchorText //
+        );
+
         model.asciidoc.add(result);
     }
 
@@ -107,8 +177,19 @@ class AnchorConverter implements ConvertAnchorDT<AnchorModel>, IAnchorConverter 
 
     @Override
     public String convert(Element element, InputFacade inputFacade) {
+        if (logD) LogUtil.mEntry(LOGGER, "convert(Element element, InputFacade inputFacade)");
+        if (logD) LogUtil.mStmt(LOGGER, "element=" + element);
+
         AnchorModel model = new AnchorModel(element, inputFacade);
+
+        isCreateListItem = false;
+
         rulesEngine.execute(this, model);
-        return String.join("", model.asciidoc);
+
+        String result = String.join("", model.asciidoc);
+
+        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        if (logD) LogUtil.mExit(LOGGER, "convert(Element element, InputFacade inputFacade)");
+        return result;
     }
 }

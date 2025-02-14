@@ -1,0 +1,26 @@
+= Die Online Hilfe in LF-ET
+
+Version: 241024a
+
+LF-ET ist ein Werkzeug, mit dem die Erzeugung, Pflege und langfristig sichere Beherrschung von Geschäftslogik-Komponenten beliebiger Komplexität unterstützt wird. Und das durchgängig und inklusive permanenter Qualitätssicherung. Beginnend beim fachlichen Entwurf, über die Programm-Generierung, bis hin zum automatischen Test.
+
+*Business Rule Management*
+: Gute Übersicht und sichere Beherrschung der Logik auch bei sehr großen und verschachtelten Regelwerken. Darstellungsform und methodisches Fundament ist die international genormte Methode "
+*Entscheidungstabelle*
+" (u.a. DIN 66241 oder CSA Z243.1-1970):
+
+image:image1123_0.jpg[]
+
+Die Kapitel in diesem Abschnitt erläutern die Funktionsweise der in LF-ET integrierten Online-Hilfe.
+
+Inhalt dieses Kapitels:
+
+* xref:null:aufrufen_der_hilfe.htm.adoc[Aufrufen der Hilfe]
+
+* xref:null:hilfebersicht1.htm.adoc[Hilfe-Übersicht]
+
+* xref:null:navigationinderhilfe1.htm.adoc[Navigation in der Hilfe]
+
+* xref:null:hilfekapitel_drucken.htm.adoc[Hilfekapitel drucken]
+
+* xref:null:die_hilfe_als_pdf_dokument.htm.adoc[Die Hilfe als PDF-Dokument]

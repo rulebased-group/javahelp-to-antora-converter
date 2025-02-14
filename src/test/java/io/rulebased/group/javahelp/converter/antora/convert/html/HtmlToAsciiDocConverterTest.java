@@ -29,6 +29,25 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
     private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();
 
     @Test
+    void online_hilfe_in_lf_et() {
+
+        ConverterConfig config = new ConverterConfig();
+        config.setOutput(new OutputConfig());
+        config.getOutput().setSaveOriginalHtmlFile(true);
+        config.getOutput().setEncoding(StandardCharsets.UTF_8);
+
+        TestFileFacade testFileFacade = new TestFileFacade();
+
+        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "online_hilfe_in_lf_et.htm");
+        System.out.println(asciidocContent);
+
+        testFileFacade.writeAdocFile("online_hilfe_in_lf_et.htm",asciidocContent);
+
+        Assertions.assertThat(asciidocContent).isNotEmpty();
+        // Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
+    }
+
+    @Test
     void ti_check_num_use_in_ti() {
 
         ConverterConfig config = new ConverterConfig();

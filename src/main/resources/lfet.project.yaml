@@ -11,7 +11,7 @@ LFET:
 
     Interface:
       enabled: true
-      Name: ${dtName}DT
+      Name: ${dtName}IFace
       Generic: true
       RuleGroups: true
       IgnoreQmark: true

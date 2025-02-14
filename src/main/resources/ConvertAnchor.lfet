@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.13 at 13:46:12 CET" saveUser="lfhl">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.14 at 12:20:08 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="11443124863866955">
       <Title language="English" value="State"/>
@@ -39,30 +39,57 @@
       <Title language="English" value="current element type is ..."/>
       <ConditionOccurrences>
         <ConditionOccurrence uId="16506653618206974">
-          <Symbol language="English" value="T"/>
+          <Symbol language="English" value="TN"/>
           <Title language="English" value="TextNode"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16506653618226976">
-          <Symbol language="English" value="E"/>
+          <Symbol language="English" value="EL"/>
           <Title language="English" value="Element"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="17395296302826980">
+          <Symbol language="English" value="IMG"/>
+          <Title language="English" value="ImageNode"/>
         </ConditionOccurrence>
         <ConditionOccurrence uId="16506653758766981">
           <Symbol language="English" value="*"/>
           <Title language="English" value="other"/>
         </ConditionOccurrence>
       </ConditionOccurrences>
-      <Text language="English" value="// $$Enum.Plain"/>
+      <Text language="English" value="// $$Enum.Symbol"/>
+    </Condition>
+    <Condition uId="17395304848698072">
+      <Title language="English" value="image is ..."/>
+      <ConditionOccurrences>
+        <ConditionOccurrence uId="17395305037218239">
+          <Symbol language="English" value="butt"/>
+          <Title language="English" value="Button"/>
+        </ConditionOccurrence>
+        <ConditionOccurrence uId="17395305037238241">
+          <Symbol language="English" value="*"/>
+          <Title language="English" value="Else"/>
+        </ConditionOccurrence>
+      </ConditionOccurrences>
+      <Text language="English" value="// $$Enum.Symbol"/>
     </Condition>
     <Condition uId="16507603756509882">
       <Title language="English" value="anchor text is empty"/>
+    </Condition>
+    <Condition uId="17395319117338833">
+      <Title language="English" value="is create list item"/>
     </Condition>
   </Conditions>
   <Actions>
     <Action uId="11443124863976962">
       <Title language="English" value="extract anchor target"/>
     </Action>
+    <Action uId="17395311127998617">
+      <Title language="English" value="set create list item"/>
+    </Action>
     <Action uId="16507277042679510">
       <Title language="English" value="extract anchor text"/>
+    </Action>
+    <Action uId="17395319528448842">
+      <Title language="English" value="create list item prefix"/>
     </Action>
     <Action uId="16507282455529633">
       <Title language="English" value="create xref link"/>
@@ -81,7 +108,7 @@
       </ActionOccurrences>
     </Action>
   </Actions>
-  <Rules lastId="22">
+  <Rules lastId="28">
     <Rule id="7">
       <ConditionOccurrenceLink link="16490067871014217"/>
       <ConditionOccurrenceLink link="16490068207564299"/>
@@ -115,17 +142,41 @@
       <ConditionOccurrenceLink link="16506653618226976"/>
       <ActionLink link="16507277042679510"/>
     </Rule>
+    <Rule id="26">
+      <ConditionOccurrenceLink link="16490067871034219"/>
+      <ConditionLink link="16506766388869130" conditionState="true"/>
+      <ConditionOccurrenceLink link="17395296302826980"/>
+      <ActionOccurrenceLink link="16490068480174496"/>
+      <ConditionOccurrenceLink link="17395305037218239"/>
+      <ActionLink link="17395311127998617"/>
+    </Rule>
+    <Rule id="25">
+      <ConditionOccurrenceLink link="16490067871034219"/>
+      <ConditionLink link="16506766388869130" conditionState="true"/>
+      <ConditionOccurrenceLink link="17395296302826980"/>
+      <ActionOccurrenceLink link="16490068480174496"/>
+      <ConditionOccurrenceLink link="17395305037238241"/>
+    </Rule>
     <Rule id="17">
       <ConditionOccurrenceLink link="16490067871034219"/>
       <ActionOccurrenceLink link="16490068480174496"/>
       <ConditionLink link="16506766388869130" conditionState="true"/>
       <ConditionOccurrenceLink link="16506653758766981"/>
     </Rule>
-    <Rule id="18">
+    <Rule id="27">
       <ConditionOccurrenceLink link="16490067871034219"/>
       <ActionOccurrenceLink link="16490068553884500"/>
       <ConditionLink link="16506766388869130" conditionState="false"/>
       <ConditionLink link="16507603756509882" conditionState="true"/>
+      <ConditionLink link="17395319117338833" conditionState="true"/>
+      <ActionLink link="17395319528448842"/>
+    </Rule>
+    <Rule id="28">
+      <ConditionOccurrenceLink link="16490067871034219"/>
+      <ActionOccurrenceLink link="16490068553884500"/>
+      <ConditionLink link="16506766388869130" conditionState="false"/>
+      <ConditionLink link="16507603756509882" conditionState="true"/>
+      <ConditionLink link="17395319117338833" conditionState="false"/>
     </Rule>
     <Rule id="19">
       <ConditionOccurrenceLink link="16490067871034219"/>

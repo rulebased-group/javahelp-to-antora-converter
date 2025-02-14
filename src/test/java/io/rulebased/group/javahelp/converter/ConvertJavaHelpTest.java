@@ -2,7 +2,7 @@ package io.rulebased.group.javahelp.converter;
 
 import org.junit.jupiter.api.Test;
 
-class ConverterTest  {
+class ConvertJavaHelpTest {
 
     @Test
     void convert_javahelp_lfet_240() {

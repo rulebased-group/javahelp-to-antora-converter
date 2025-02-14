@@ -18,7 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 
-class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterDT<JavaHelpToAntoraConverterModel>, IJavaHelpToAntoraConverter {
+class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHelpToAntoraConverterModel>, IJavaHelpToAntoraConverter {
 
     static final JavaHelpToAntoraConverterRulesEngine rulesEngine = new JavaHelpToAntoraConverterRulesEngine();
     final ILfetLogging lfetLogging;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.13 at 11:17:20 CET" saveUser="lfhl">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.14 at 13:53:35 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="16485860137989812">
       <Title language="English" value="State"/>
@@ -15,9 +15,12 @@
         </ConditionOccurrence>
         <ConditionOccurrence uId="16485860210679875">
           <Symbol language="English" value="PCE"/>
-          <Title language="English" value="Process child elements"/>
+          <Title language="English" value="Process current element"/>
         </ConditionOccurrence>
       </ConditionOccurrences>
+    </Condition>
+    <Condition uId="16506642499304922">
+      <Title language="English" value="start element is defined"/>
     </Condition>
     <Condition uId="11443124863866955">
       <Title language="English" value="contains current element child elements"/>
@@ -146,9 +149,6 @@
         </ConditionOccurrence>
       </ConditionOccurrences>
     </Condition>
-    <Condition uId="16506642499304922">
-      <Title language="English" value="start element is defined"/>
-    </Condition>
   </Conditions>
   <Actions>
     <Action uId="17393916791596553">
@@ -210,9 +210,9 @@
       <Text language="English" value="// $$Enum.Symbol"/>
     </Action>
     <Action uId="16506643382526094">
-      <Title language="English" value="process element"/>
+      <Title language="English" value="process child elements"/>
       <UrlsOut>
-        <Url title="JHTAC_HtmlToAsciiDocConverter.lfet" url="file:///./JHTAC_HtmlToAsciiDocConverter.lfet"/>
+        <Url title="HtmlToAsciiDocConverter" url="file:///./HtmlToAsciiDocConverter.lfet"/>
       </UrlsOut>
     </Action>
     <Action uId="16485912214671249">
@@ -266,7 +266,7 @@
         </ActionOccurrence>
         <ActionOccurrence uId="16485862497250205">
           <Symbol language="English" value="PCE"/>
-          <Title language="English" value="Process child elements"/>
+          <Title language="English" value="Process current element"/>
         </ActionOccurrence>
         <ActionOccurrence uId="16485862496910197">
           <Symbol language="English" value="Exit"/>
@@ -275,7 +275,7 @@
       </ActionOccurrences>
     </Action>
   </Actions>
-  <Rules lastId="126">
+  <Rules lastId="127">
     <Rule id="54">
       <ConditionOccurrenceLink link="16500619473137147"/>
       <ActionOccurrenceLink link="16500620213877336"/>

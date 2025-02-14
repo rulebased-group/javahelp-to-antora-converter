@@ -1,7 +1,0 @@
-= Aktionsanzeigeteil
-
-Im Aktionsanzeigeteil lassen sich die jeweils auszuführenden Aktionen bestimmen, d.h. es wird je Regel angegeben, welche Aktionen ausgeführt werden sollen. Diese Angaben können z.B. durch Ankreuzen (X) der betreffenden Aktionen geschehen. Sie werden auch Aktionsanzeiger genannt.
-
-Die Ausführung der Aktionen erfolgt standardmäßig von oben nach unten. 
-
-image::image1517_3.jpg[]
