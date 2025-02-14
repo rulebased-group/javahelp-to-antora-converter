@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @RequiredArgsConstructor
-class AnchorModel {
+class AnchorConverterModel {
 
     final Element element;
     final InputFacade inputFacade;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.13 at 15:43:36 CET" saveUser="lfhl">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.14 at 16:25:11 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="11446800829457960">
       <Title language="German" value="State"/>
@@ -27,13 +27,40 @@
       <Title language="English" value="Step"/>
     </Condition>
     <Condition uId="16476536747033014">
-      <Title language="English" value="exists table of content file"/>
+      <Title language="English" value="toc file exists?"/>
     </Condition>
     <Condition uId="16477842321463886">
-      <Title language="English" value="next table of content entry  on level 1 exists?"/>
+      <Title language="English" value="next level 1 toc entry exists?"/>
     </Condition>
   </Conditions>
   <Actions>
+    <Action uId="16477846196604696">
+      <Title language="English" value="import toc file"/>
+    </Action>
+    <Action uId="16480323885021252">
+      <Title language="English" value="delete modules directory"/>
+    </Action>
+    <Action uId="17394577842219322">
+      <Title language="English" value="create all mappings for toc entry"/>
+    </Action>
+    <Action uId="17394577433789319">
+      <Title language="English" value="reset toc iterator"/>
+    </Action>
+    <Action uId="16477842874904176">
+      <Title language="English" value="create modul with name of toc entry"/>
+    </Action>
+    <Action uId="16479131699109421">
+      <Title language="English" value="process toc entry"/>
+      <UrlsOut>
+        <Url title="JHTAC_ToCEntry.lfet" url="file:///./JHTAC_ToCEntry.lfet"/>
+      </UrlsOut>
+    </Action>
+    <Action uId="16484212669797842">
+      <Title language="English" value="add module entry to antora.yml nav section"/>
+    </Action>
+    <Action uId="16481274242641368">
+      <Title language="English" value="save antora.yml to docs directory"/>
+    </Action>
     <Action uId="11446800828767967">
       <Title language="German" value="Titel für Aktion 1"/>
       <Title language="English" value="Error"/>
@@ -44,33 +71,6 @@
         </ActionOccurrence>
       </ActionOccurrences>
       <Text language="English" value="// $$Enum.Plain"/>
-    </Action>
-    <Action uId="17394577842219322">
-      <Title language="English" value="create all mappings for toc entry"/>
-    </Action>
-    <Action uId="17394577433789319">
-      <Title language="English" value="reset toc iterator"/>
-    </Action>
-    <Action uId="16477842874904176">
-      <Title language="English" value="create modul with name of table of content entry"/>
-    </Action>
-    <Action uId="16479131699109421">
-      <Title language="English" value="process table of content entry"/>
-      <UrlsOut>
-        <Url title="JHTAC_ToCEntry.lfet" url="file:///./JHTAC_ToCEntry.lfet"/>
-      </UrlsOut>
-    </Action>
-    <Action uId="16477846196604696">
-      <Title language="English" value="read ToC file"/>
-    </Action>
-    <Action uId="16480323885021252">
-      <Title language="English" value="delete modules directory"/>
-    </Action>
-    <Action uId="16484212669797842">
-      <Title language="English" value="add module entry to nav"/>
-    </Action>
-    <Action uId="16481274242641368">
-      <Title language="English" value="save antora.yml to docs directory"/>
     </Action>
     <Action uId="11446800829627977">
       <Title language="German" value="State"/>

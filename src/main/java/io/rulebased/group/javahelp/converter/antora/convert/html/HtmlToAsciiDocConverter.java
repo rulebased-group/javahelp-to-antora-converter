@@ -18,7 +18,7 @@ import org.jsoup.nodes.TextNode;
 import java.util.*;
 
 @RequiredArgsConstructor
-class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsciiDocConverter.Model>, IHtmlConverter {
+class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsciiDocConverter.Model>, IHtmlToAsciiDocConverter {
 
     private static final Logger LOGGER = LogManager.getLogger(HtmlToAsciiDocConverter.class);
     private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();

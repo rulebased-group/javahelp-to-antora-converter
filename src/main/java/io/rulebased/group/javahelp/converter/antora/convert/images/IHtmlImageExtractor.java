@@ -6,9 +6,9 @@ import io.rulebased.group.javahelp.converter.facade.InputFacade;
 
 import java.io.File;
 
-public interface IImageConverter {
+public interface IHtmlImageExtractor {
 
-    static IImageConverter create(ILfetLogging lfetLogging) {
+    static IHtmlImageExtractor create(ILfetLogging lfetLogging) {
         return new HtmlImageExtractor(lfetLogging);
     }
 

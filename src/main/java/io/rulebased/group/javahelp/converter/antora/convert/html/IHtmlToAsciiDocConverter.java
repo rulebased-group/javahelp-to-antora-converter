@@ -7,9 +7,9 @@ import io.rulebased.group.javahelp.converter.facade.InputFacade;
 
 import java.util.List;
 
-public interface IHtmlConverter {
+public interface IHtmlToAsciiDocConverter {
 
-    static IHtmlConverter create(ILfetLogging lfetLogging, IAnchorConverter anchorConverter) {
+    static IHtmlToAsciiDocConverter create(ILfetLogging lfetLogging, IAnchorConverter anchorConverter) {
         return new HtmlToAsciiDocConverter(lfetLogging, anchorConverter);
     }
 

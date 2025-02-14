@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @ToString
-class TableOfContentConverterModel {
+class ToCConverterModel {
 
     ConverterConfig config;
     InputFacade inputFacade;
@@ -22,7 +22,7 @@ class TableOfContentConverterModel {
     int currentToCLevel;
     List<String> asciidocContent;
 
-    TableOfContentConverterModel(ConverterConfig config, File moduleDirectory, InputFacade inputFacade, Element tocElement, int currentToCLevel) {
+    ToCConverterModel(ConverterConfig config, File moduleDirectory, InputFacade inputFacade, Element tocElement, int currentToCLevel) {
         this.config = config;
         this.inputFacade = inputFacade;
         this.moduleDirectory = moduleDirectory;

@@ -14,7 +14,7 @@ import lombok.ToString;
 import java.io.File;
 import java.io.IOException;
 
-public class Converter implements ConverterDT<Converter.ConverterModel>, ILfetLogging {
+public class Converter implements ConverterIFace<Converter.ConverterModel>, ILfetLogging {
 
     static final ConverterRulesEngine rulesEngine = new ConverterRulesEngine();
 

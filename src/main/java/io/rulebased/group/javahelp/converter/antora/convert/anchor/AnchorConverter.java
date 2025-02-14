@@ -13,29 +13,29 @@ import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
-class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConverter {
+class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAnchorConverter {
 
     private static final Logger LOGGER = LogManager.getLogger(AnchorConverter.class);
     private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();
 
-    static final ConvertAnchorRulesEngine rulesEngine = new ConvertAnchorRulesEngine();
+    static final AnchorConverterRulesEngine rulesEngine = new AnchorConverterRulesEngine();
     final ILfetLogging lfetLogging;
 
     private boolean isCreateListItem = false;
 
     @Override
-    public boolean isCurrentElementIs(CurrentElementIs arg0, AnchorModel model) {
+    public boolean isCurrentElementIs(CurrentElementIs arg0, AnchorConverterModel model) {
         return model.element.nodeName().equalsIgnoreCase(arg0.getSymbol());
     }
 
     @Override
-    public boolean isContainsCurrentElementChildElements(AnchorModel model) {
+    public boolean isContainsCurrentElementChildElements(AnchorConverterModel model) {
         model.childsNodesIt = model.element.childNodes().iterator();
         return model.childsNodesIt.hasNext();
     }
 
     @Override
-    public boolean isNextChildElementExists(AnchorModel model) {
+    public boolean isNextChildElementExists(AnchorConverterModel model) {
         if (model.childsNodesIt.hasNext()) {
             model.currentNode = model.childsNodesIt.next();
         } else {
@@ -45,7 +45,7 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
     }
 
     @Override
-    public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, AnchorModel model) {
+    public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, AnchorConverterModel model) {
         if (logD) LogUtil.mEntry(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
         if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
 
@@ -79,7 +79,7 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
     }
 
     @Override
-    public boolean isImageIs(ImageIs arg0, AnchorModel model) {
+    public boolean isImageIs(ImageIs arg0, AnchorConverterModel model) {
         if (logD) LogUtil.mEntry(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
         if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
 
@@ -104,27 +104,27 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
     }
 
     @Override
-    public boolean isAnchorTextIsEmpty(AnchorModel model) {
+    public boolean isAnchorTextIsEmpty(AnchorConverterModel model) {
         return model.anchorText.isEmpty();
     }
 
     @Override
-    public boolean isIsCreateListItem(AnchorModel model) {
+    public boolean isIsCreateListItem(AnchorConverterModel model) {
         return isCreateListItem;
     }
 
     @Override
-    public void doExtractAnchorTarget(AnchorModel model) {
+    public void doExtractAnchorTarget(AnchorConverterModel model) {
         model.anchorTarget = model.element.attr("href");
     }
 
     @Override
-    public void doSetCreateListItem(AnchorModel model) {
+    public void doSetCreateListItem(AnchorConverterModel model) {
         isCreateListItem = true;
     }
 
     @Override
-    public void doExtractAnchorText(AnchorModel model) {
+    public void doExtractAnchorText(AnchorConverterModel model) {
         if (model.currentNode instanceof TextNode) {
             model.anchorText = model.anchorText + ((TextNode) model.currentNode).text();
         } else if (model.currentNode instanceof Element) {
@@ -144,12 +144,12 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
     }
 
     @Override
-    public void doCreateListItemPrefix(AnchorModel model) {
+    public void doCreateListItemPrefix(AnchorConverterModel model) {
         model.asciidoc.add("* ");
     }
 
     @Override
-    public void doCreateXrefLink(AnchorModel model) {
+    public void doCreateXrefLink(AnchorConverterModel model) {
 
         String anchorTarget = model.anchorTarget;
 
@@ -171,7 +171,7 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
     }
 
     @Override
-    public void doTrace(String dtName, String version, int rules, int rule, AnchorModel model) {
+    public void doTrace(String dtName, String version, int rules, int rule, AnchorConverterModel model) {
         lfetLogging.trace(dtName, version, rule, rules, model);
     }
 
@@ -180,7 +180,7 @@ class AnchorConverter implements ConvertAnchorIFace<AnchorModel>, IAnchorConvert
         if (logD) LogUtil.mEntry(LOGGER, "convert(Element element, InputFacade inputFacade)");
         if (logD) LogUtil.mStmt(LOGGER, "element=" + element);
 
-        AnchorModel model = new AnchorModel(element, inputFacade);
+        AnchorConverterModel model = new AnchorConverterModel(element, inputFacade);
 
         isCreateListItem = false;
 

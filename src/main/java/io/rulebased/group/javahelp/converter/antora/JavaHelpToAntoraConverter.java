@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import io.rulebased.group.javahelp.converter.antora.convert.anchor.IAnchorConverter;
-import io.rulebased.group.javahelp.converter.antora.convert.html.IHtmlConverter;
-import io.rulebased.group.javahelp.converter.antora.convert.images.IImageConverter;
+import io.rulebased.group.javahelp.converter.antora.convert.html.IHtmlToAsciiDocConverter;
+import io.rulebased.group.javahelp.converter.antora.convert.images.IHtmlImageExtractor;
 import io.rulebased.group.javahelp.converter.antora.convert.toc.IToCConverter;
 import io.rulebased.group.javahelp.converter.antora.exception.JavaHelpToAntoraConverterException;
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
@@ -26,7 +26,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
 
     JavaHelpToAntoraConverter(ILfetLogging lfetLogging) {
         this.lfetLogging = lfetLogging;
-        toCConverter = IToCConverter.create(lfetLogging, IImageConverter.create(lfetLogging), IHtmlConverter.create(lfetLogging, IAnchorConverter.create(lfetLogging)));
+        toCConverter = IToCConverter.create(lfetLogging, IHtmlImageExtractor.create(lfetLogging), IHtmlToAsciiDocConverter.create(lfetLogging, IAnchorConverter.create(lfetLogging)));
     }
 
 
@@ -38,7 +38,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
 
 
     @Override
-    public boolean isExistsTableOfContentFile(JavaHelpToAntoraConverterModel model) {
+    public boolean isTocFileExists(JavaHelpToAntoraConverterModel model) {
         return model.inputFacade.isExistFile(Path.of(model.config.getInput().getTableOfContentFileName()));
     }
 
@@ -64,7 +64,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
     }
 
     @Override
-    public void doCreateModulWithNameOfTableOfContentEntry(JavaHelpToAntoraConverterModel model) {
+    public void doCreateModulWithNameOfTocEntry(JavaHelpToAntoraConverterModel model) {
         //noinspection ResultOfMethodCallIgnored
         model.getModulDirectoryName().mkdirs();
         //noinspection ResultOfMethodCallIgnored
@@ -72,12 +72,12 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
     }
 
     @Override
-    public void doProcessTableOfContentEntry(JavaHelpToAntoraConverterModel model) {
+    public void doProcessTocEntry(JavaHelpToAntoraConverterModel model) {
         toCConverter.execute(model.config, model.getModulDirectoryName(), model.processingModel.currentTOCElement, model.inputFacade, 1);
     }
 
     @Override
-    public boolean isNextTableOfContentEntryOnLevel1Exists(JavaHelpToAntoraConverterModel model) {
+    public boolean isNextLevel1TocEntryExists(JavaHelpToAntoraConverterModel model) {
         if (model.processingModel.tocEntriesIt == null) {
             model.processingModel.tocEntriesIt = model.getTableOfContentDocument().getRootElement().getChildren("tocitem").iterator();
         }
@@ -90,7 +90,7 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
     }
 
     @Override
-    public void doReadToCFile(JavaHelpToAntoraConverterModel model) {
+    public void doImportTocFile(JavaHelpToAntoraConverterModel model) {
         model.setTableOfContentDocument(model.inputFacade.getTableOfContentFile(model.config.getInput().getTableOfContentFileName()));
     }
 
@@ -110,8 +110,8 @@ class JavaHelpToAntoraConverter implements JavaHelpToAntoraConverterIFace<JavaHe
         }
     }
 
-    @Override
-    public void doAddModuleEntryToAnoraYmlNav(JavaHelpToAntoraConverterModel model) {
+  @Override
+    public void doAddModuleEntryToAntoraYmlNavSection(JavaHelpToAntoraConverterModel model) {
         String moduleName = model.processingModel.currentTOCElement.getAttributeValue("text");
         moduleName = moduleName
             .toLowerCase() //
