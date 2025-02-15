@@ -3,6 +3,7 @@ package io.rulebased.group.javahelp.converter.antora.convert.anchor;
 import io.rulebased.group.javahelp.converter.antora.logging.ILfetLogging;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
 import io.rulebased.group.javahelp.converter.utils.LogUtil;
+import io.rulebased.group.javahelp.converter.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,8 +47,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
 
     @Override
     public boolean isCurrentElementTypeIs(CurrentElementTypeIs arg0, AnchorConverterModel model) {
-        if (logD) LogUtil.mEntry(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
-        if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
+        // if (logD) LogUtil.mEntry(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
+        // if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
 
         final boolean result;
 
@@ -73,15 +74,15 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
             }
         }
 
-        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
-        if (logD) LogUtil.mExit(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        // if (logD) LogUtil.mExit(LOGGER, "isCurrentElementTypeIs(ConvertAnchorDTCurrentElementTypeIs arg0, AnchorModel model)");
         return result;
     }
 
     @Override
     public boolean isImageIs(ImageIs arg0, AnchorConverterModel model) {
-        if (logD) LogUtil.mEntry(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
-        if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
+        // if (logD) LogUtil.mEntry(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
+        // if (logD) LogUtil.mStmtf(LOGGER, "arg0=%s, currentNode=%s", arg0, model.currentNode);
 
         final boolean result;
 
@@ -98,8 +99,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
             }
         }
 
-        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
-        if (logD) LogUtil.mExit(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        // if (logD) LogUtil.mExit(LOGGER, "isImageIs(ConvertAnchorDTImageIs arg0, AnchorModel model)");
         return result;
     }
 
@@ -151,20 +152,42 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
     @Override
     public void doCreateXrefLink(AnchorConverterModel model) {
 
+        String anchorPrefix ="";
         String anchorTarget = model.anchorTarget;
+        String moduleName = "";
+        final StringBuilder anchorText = new StringBuilder();
 
-        if (anchorTarget.matches(".*\\.htm$")) {
-            // .htm is the generated file extension by DocToHelp which is the authoring system used for the german LF-ET user manual
-            // so it should be pretty save to add ".adoc"
-            // TODO maybe we should use and maintain a "generated document" list including paths etc.
-            anchorTarget = anchorTarget + ".adoc";
+        if (anchorTarget.matches("^(https?|mailto):.*")) {
+            if (Utils.isNotEmpty(model.anchorText)) {
+                anchorText.append("\"");
+                anchorText.append(model.anchorText);
+                anchorText.append("\",");
+            }
+            anchorText.append("window=_blank");
+        } else {
+            anchorPrefix="xref:";
+            anchorText.append(model.anchorText);
+            if (anchorTarget.matches(".*\\.htm$")) {
+                // .htm is the generated file extension by DocToHelp which is the authoring system used for the german LF-ET user manual
+                // so it should be pretty save to add ".adoc"
+                // TODO maybe we should use and maintain a "generated document" list including paths etc.
+                anchorTarget = Utils.getAdocfileName(anchorTarget);
+
+                moduleName = model.inputFacade != null ? model.inputFacade.getAntoraModuleName(anchorTarget) : "";
+                if (Utils.isEmpty(moduleName)) {
+                    moduleName = "";
+                } else {
+                    moduleName = moduleName + ":";
+                }
+            }
         }
 
-        String result = String.format("%sxref:%s%s[%s]" //
+        String result = String.format("%s%s%s%s[%s]" //
             , isCreateListItem ? "* " : "" //
-            , model.inputFacade != null ? model.inputFacade.getAntoraModuleName(anchorTarget) + ":" : "" //
+            , anchorPrefix //
+            , moduleName //
             , anchorTarget //
-            , model.anchorText //
+            , anchorText //
         );
 
         model.asciidoc.add(result);
@@ -177,8 +200,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
 
     @Override
     public String convert(Element element, InputFacade inputFacade) {
-        if (logD) LogUtil.mEntry(LOGGER, "convert(Element element, InputFacade inputFacade)");
-        if (logD) LogUtil.mStmt(LOGGER, "element=" + element);
+        // if (logD) LogUtil.mEntry(LOGGER, "convert(Element element, InputFacade inputFacade)");
+        // if (logD) LogUtil.mStmt(LOGGER, "element=" + element);
 
         AnchorConverterModel model = new AnchorConverterModel(element, inputFacade);
 
@@ -188,8 +211,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
 
         String result = String.join("", model.asciidoc);
 
-        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
-        if (logD) LogUtil.mExit(LOGGER, "convert(Element element, InputFacade inputFacade)");
+        // if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        // if (logD) LogUtil.mExit(LOGGER, "convert(Element element, InputFacade inputFacade)");
         return result;
     }
 }

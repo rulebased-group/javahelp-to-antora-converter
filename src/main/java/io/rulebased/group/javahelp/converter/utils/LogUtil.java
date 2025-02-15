@@ -50,7 +50,7 @@ public final class LogUtil {
 
     public static synchronized void mStmt(Logger logger, String... s) {
         for (String s2 : s) {
-            mStmtf(logger, s2);
+            mStmt(logger, s2);
         }
     }
 

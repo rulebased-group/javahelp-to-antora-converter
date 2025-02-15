@@ -7,13 +7,16 @@ import io.rulebased.group.javahelp.converter.config.OutputConfig;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
 import io.rulebased.group.javahelp.converter.facade.InputFacadeRuntimeException;
 import io.rulebased.group.javahelp.converter.utils.LogUtil;
+import io.rulebased.group.javahelp.converter.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.Assertions;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -28,118 +31,57 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
     private static final Logger LOGGER = LogManager.getLogger(HtmlToAsciiDocConverterTest.class);
     private static final boolean logD = LOGGER.isDebugEnabled() && LogUtil.isLogLevelDebug();
 
-    @Test
-    void online_hilfe_in_lf_et() {
+    @ParameterizedTest
+    @ValueSource(strings = {"" //
+//        , "online_hilfe_in_lf_et.htm" //
+//        , "projectini_vordefinierte_standard_schluessel.htm" //
+//        , "backuphistoryversion.htm" //
+//        , "mglichkeit_1_ber_das_men.htm" //
+//        , "version_2_4_0.htm" //
+//        , "test.htm" //
+//        , "ti_check_num_bsp.htm" //
+//        , "tastenkombinationen.htm" //
+//        , "funktionstasten_f1_f12.htm" //
+//        , "navigationstasten1.htm" //
+//        , "dateneingabe-02.htm" //
+//        , "sonstigetasten1.htm" //
+//        , "tastenkombinationen_fr_texte.htm" //
+        , "prog_gen_navigationindensourcecodes.htm" //
+    })
+    void htmPages(String htmFileName) {
+        if (Utils.isNotEmpty(htmFileName)) {
+            ConverterConfig config = new ConverterConfig();
+            config.setOutput(new OutputConfig());
+            config.getOutput().setSaveOriginalHtmlFile(true);
+            config.getOutput().setEncoding(StandardCharsets.UTF_8);
 
-        ConverterConfig config = new ConverterConfig();
-        config.setOutput(new OutputConfig());
-        config.getOutput().setSaveOriginalHtmlFile(true);
-        config.getOutput().setEncoding(StandardCharsets.UTF_8);
+            TestFileFacade testFileFacade = new TestFileFacade();
 
-        TestFileFacade testFileFacade = new TestFileFacade();
+            List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, htmFileName);
+            System.out.println(asciidocContent);
 
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "online_hilfe_in_lf_et.htm");
-        System.out.println(asciidocContent);
+            testFileFacade.writeAdocFile(htmFileName, asciidocContent);
 
-        testFileFacade.writeAdocFile("online_hilfe_in_lf_et.htm",asciidocContent);
-
-        Assertions.assertThat(asciidocContent).isNotEmpty();
-        // Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
+            Assertions.assertThat(asciidocContent).isNotEmpty();
+        }
     }
 
-    @Test
-    void ti_check_num_use_in_ti() {
-
-        ConverterConfig config = new ConverterConfig();
-        config.setOutput(new OutputConfig());
-        config.getOutput().setSaveOriginalHtmlFile(true);
-        config.getOutput().setEncoding(StandardCharsets.UTF_8);
-
-        TestFileFacade testFileFacade = new TestFileFacade();
-
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "ti_check_num_use_in_ti.htm");
-        System.out.println(asciidocContent);
-
-        testFileFacade.writeAdocFile("ti_check_num_use_in_ti.htm",asciidocContent);
-
-        Assertions.assertThat(asciidocContent).isNotEmpty();
-        // Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
-    }
-
-    @Test
-    void aktionsanzeigeteil1() {
-
-        ConverterConfig config = new ConverterConfig();
-        config.setOutput(new OutputConfig());
-        config.getOutput().setSaveOriginalHtmlFile(true);
-        config.getOutput().setEncoding(StandardCharsets.UTF_8);
-
-        TestFileFacade testFileFacade = new TestFileFacade();
-
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "aktionsanzeigeteil1.htm");
-        System.out.println(asciidocContent);
-
-        testFileFacade.writeAdocFile("aktionsanzeigeteil1.htm",asciidocContent);
-
-        Assertions.assertThat(asciidocContent).isNotEmpty();
-        Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Aktionsanzeigeteil");
-
-    }
-
-    @Test
-    void allgemeinegrundlagen1() {
-
-        ConverterConfig config = new ConverterConfig();
-        config.setOutput(new OutputConfig());
-        config.getOutput().setSaveOriginalHtmlFile(true);
-        config.getOutput().setEncoding(StandardCharsets.UTF_8);
-
-        TestFileFacade testFileFacade = new TestFileFacade();
-
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "allgemeinegrundlagen1.htm");
-        System.out.println(asciidocContent);
-
-        testFileFacade.writeAdocFile("allgemeinegrundlagen1.htm",asciidocContent);
-
-        Assertions.assertThat(asciidocContent).isNotEmpty();
-        Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Allgemeine Grundlagen");
-
-    }
-
-
-    @Test
-    void projectini_vordefinierte_standard_schluessel() {
-
-        ConverterConfig config = new ConverterConfig();
-        config.setOutput(new OutputConfig());
-        config.getOutput().setSaveOriginalHtmlFile(true);
-        config.getOutput().setEncoding(StandardCharsets.UTF_8);
-
-        TestFileFacade testFileFacade = new TestFileFacade();
-
-        List<String> asciidocContent = new HtmlToAsciiDocConverter(this, IAnchorConverter.create(this)).execute(config, testFileFacade, "projectini_vordefinierte_standard_schluessel.htm");
-        System.out.println(asciidocContent);
-
-        testFileFacade.writeAdocFile("projectini_vordefinierte_standard_schluessel.htm",asciidocContent);
-
-        Assertions.assertThat(asciidocContent).isNotEmpty();
-//        Assertions.assertThat(asciidocContent.get(0)).isEqualTo("= Allgemeine Grundlagen");
-    }
 
     @Override
     public <T> void trace(String lfet, String version, int currentRule, int maxRules, T model) {
         switch (lfet) {
-            case "JHTAC_HtmlToAsciiDocConverter": {
-                System.out.println(lfet + " - " + currentRule + " / " + maxRules + " - " + ((HtmlToAsciiDocConverter.Model) model).currentChildElement);
+            case "HtmlToAsciiDocConverter": {
+                // System.out.println(lfet + " - " + currentRule + " / " + maxRules + " - " + ((HtmlToAsciiDocConverter.Model) model).currentChildElement);
+                // if (logD) LogUtil.mStmtf(LOGGER, "%s rule %s of %s \n%s", lfet, currentRule, maxRules,((HtmlToAsciiDocConverter.Model) model).currentChildElement);
                 break;
             }
             default: {
-                System.out.println(lfet + " - " + currentRule + " / " + maxRules);
+                // System.out.println(lfet + " - " + currentRule + " / " + maxRules);
+                // if (logD) LogUtil.mStmtf(LOGGER, "%s rule %s of %s", lfet, currentRule, maxRules);
                 break;
             }
         }
     }
-
 
     static class TestFileFacade implements InputFacade {
 
@@ -170,11 +112,19 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
             try {
                 StringBuilder sb = new StringBuilder();
                 for (String line : contentLines) {
-                    if (sb.length() > 0) {sb.append("\n");}
+                    if (sb.length() > 0) {
+                        sb.append("\n");
+                    }
                     sb.append(line);
                 }
-                Files.writeString(Path.of("src/test/resources/convert/html",
-                    path2File.replaceAll("(?i)\\.html?$",".adoc")), sb.toString(), StandardCharsets.UTF_8);
+
+                File dir = new File("target/generated-resources/convert/html");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                Files.writeString(Path.of("target/generated-resources/convert/html",
+                    path2File.replaceAll("(?i)\\.html?$", ".adoc")), sb.toString(), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 throw new InputFacadeRuntimeException("Error while reading file", e);
             }
@@ -191,6 +141,7 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         }
 
         final Map<String, String> mapFileNameToModule = new TreeMap<>();
+
         @Override
         public void addFileMappings(String baseDir, Element e) {
             if (logD) LogUtil.mEntry(LOGGER, "addFileMappings(String baseDir, Element e)");
@@ -207,7 +158,7 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
         }
 
         @Override
-        public String getAntoraModuleName(String antoraFileName){
+        public String getAntoraModuleName(String antoraFileName) {
             return mapFileNameToModule.get(antoraFileName);
         }
     }

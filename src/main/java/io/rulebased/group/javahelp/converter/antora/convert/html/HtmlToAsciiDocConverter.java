@@ -30,25 +30,25 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public List<String> execute(ConverterConfig config, InputFacade inputFacade, String targetFileName) {
-        if (logD) LogUtil.mEntry(LOGGER, "execute(...)");
-        if (logD) LogUtil.mStmt(LOGGER, "inputFacade=" + inputFacade);
+        // if (logD) LogUtil.mEntry(LOGGER, "execute(...)");
+        // if (logD) LogUtil.mStmt(LOGGER, "inputFacade=" + inputFacade);
 
         String contentOfFile = inputFacade.getContentOfFile(targetFileName);
         Document document = Jsoup.parse(contentOfFile, "");
         Model model = new Model(document);
         model.inputFacade = inputFacade;
 
-        if (logD) LogUtil.mStmt(LOGGER, "model=" + model);
+        // if (logD) LogUtil.mStmt(LOGGER, "model=" + model);
 
         rulesEngine.execute(this, model);
 
-        if (logD) LogUtil.mExit(LOGGER, "execute(...)");
+        // if (logD) LogUtil.mExit(LOGGER, "execute(...)");
         return model.asciidocContent;
     }
 
 
     @Override
-    public boolean isContainsCurrentElementChildElements(Model model) {
+    public boolean isContainsStartElementChildElements(Model model) {
         List<Node> nodes = model.element.childNodes();
         model.childElementsIt = nodes.iterator();
         return !nodes.isEmpty();
@@ -158,21 +158,22 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public void doExtractAnchor(Model model) {
-        if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor(...)");
-        if (logD) LogUtil.mStmt(LOGGER, "model=" + model);
-        if (logD) LogUtil.mStmt(LOGGER, "model.inputFacade=" + model.inputFacade);
+        // if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor(...)");
+        // if (logD) LogUtil.mStmt(LOGGER, "model=" + model);
+        // if (logD) LogUtil.mStmt(LOGGER, "model.inputFacade=" + model.inputFacade);
 
         String anchor = anchorConverter.convert((Element) model.currentChildElement, model.inputFacade);
+
         if (anchor != null && !anchor.isEmpty()) {
             if (model.isLastElementAddedListItemTag()) {
-                model.removeLastAsciiDocContentLine();
+                model.removeAsciiDocContentLastLine();
                 model.addToAsciiDocContent("* " + anchor);
             } else {
-                model.addToAsciiDocContent(anchor);
+                model.appendToAsciiDocContentLastLine(anchor);
             }
         }
 
-        if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor(...)");
+        // if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor(...)");
     }
 
     @Override
@@ -190,7 +191,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 break;
             }
             case $TD: {
-                String colValue = Utils.convertTextForAdoc(((Element) model.currentChildElement).text().trim());
+                String colValue = model.convertTextForAdoc(((Element) model.currentChildElement).text().trim());
                 if (model.tableColumnCount == 1 && !colValue.isEmpty()) {
                     model.tableEntries1stColumn.add(colValue);
                 }
@@ -205,6 +206,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
     @Override
     public void doProcessChildElements(Model model) {
         // if (logD) LogUtil.mEntry(LOGGER, "doProcessChildElements(" + model.currentChildElement.nodeName() + ")");
+        // if (logD) LogUtil.mStmt(LOGGER, "model.currentChildElement=" + model.currentChildElement);
 
         Model processElementModel = new Model((Element) model.currentChildElement, model.currentHeaderLevel);
         processElementModel.inputFacade = model.inputFacade;
@@ -214,9 +216,28 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         rulesEngine.execute(this, processElementModel);
 
-        model.addToAsciiDocContent("");
-        model.asciidocContent.addAll(processElementModel.asciidocContent);
-        model.addToAsciiDocContent("");
+        switch (model.currentChildElement.nodeName()) {
+            case "i": {
+                // https://docs.asciidoctor.org/asciidoc/latest/text/bold/#mixing-bold-with-other-formatting
+                processElementModel.surroundAsciiDocContentWith("__");
+                model.appendToAsciiDocContentLastLine(processElementModel.asciidocContent);
+                break;
+            }
+            case "b": {
+                // https://docs.asciidoctor.org/asciidoc/latest/text/bold/#mixing-bold-with-other-formatting
+                processElementModel.surroundAsciiDocContentWith("**");
+                model.appendToAsciiDocContentLastLine(processElementModel.asciidocContent);
+                break;
+            }
+            case "p": {
+                model.addToAsciiDocContent("");
+                model.addToAsciiDocContent(processElementModel.asciidocContent);
+                break;
+            }
+            default: {
+                model.addToAsciiDocContent(processElementModel.asciidocContent);
+            }
+        }
 
         model.tableHeader = processElementModel.tableHeader;
         model.tableColumnCount = processElementModel.tableColumnCount;
@@ -235,14 +256,14 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 } else {
                     value = ((Element) model.currentChildElement).text();
                 }
-                model.addToAsciiDocContent("=".repeat(model.currentHeaderLevel) + " " + Utils.convertTextForAdoc(value));
+                model.addToAsciiDocContent(model.convertTextForAdoc("=".repeat(model.currentHeaderLevel) + " " + value));
                 break;
             }
             case $NONE: {
                 if (model.currentChildElement instanceof TextNode) {
-                    model.addToAsciiDocContent(Utils.convertTextForAdoc(((TextNode) model.currentChildElement).text()));
+                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(((TextNode) model.currentChildElement).text()));
                 } else {
-                    model.addToAsciiDocContent(Utils.convertTextForAdoc(((Element) model.currentChildElement).text()));
+                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(((Element) model.currentChildElement).text()));
                 }
                 break;
             }
@@ -303,7 +324,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 break;
             }
             default: {
-                String text = Utils.convertTextForAdoc(((Element) model.currentChildElement).text().trim());
+                String text = model.convertTextForAdoc(((Element) model.currentChildElement).text().trim());
                 if (!text.isEmpty()) {
                     model.addToAsciiDocContent(arg0.getSymbol() + text + arg0.getSymbol());
                 }
@@ -347,6 +368,21 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
         private int tableBorder;
         private final Set<String> tableEntries1stColumn = new HashSet<>();
 
+        final private static List<String> kbdKeys = Arrays.asList( //
+            "STRG", "CTRL" //
+            , "ALT" //
+            , "UMSCHALT", "SHIFT" //
+            , "PLUS", "MINUS" //
+            , "ESC", "ESCAPE" //
+            , "Pfeiltaste", "Pfeil", "NACH-OBEN", "NACH-UNTEN", "NACH-LINKS", "NACH-RECHTS" //
+            , "RÜCKTASTE", "LEERTASTE", "ENTF", "ADDIEREN", "SUBTRAHIEREN" //
+            , "POS1", "ENDE", "EINGABE", "ENTR", "ENTER", "TAB" //
+            , "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" //
+            , "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" //
+            , "BildAb", "BildAuf", "BILD-AUF", "BILD-AB", "PageDown", "PageUp" //
+            , "NACH-LINKS", "NACH-RECHTS", "NACH-OBEN", "NACH-UNTEN" //
+        );
+
         Model(Document document) {
             this.document = document;
         }
@@ -371,7 +407,32 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             return result;
         }
 
+        public void appendToAsciiDocContentLastLine(String... lines) {
+            if (lines != null && lines.length > 0) {
+                appendToAsciiDocContentLastLine(Arrays.asList(lines));
+            }
+        }
+
+        public void appendToAsciiDocContentLastLine(List<String> lines) {
+            if (lines != null && !lines.isEmpty()) {
+                StringBuilder s = new StringBuilder(removeAsciiDocContentLastLine());
+                for (String line : lines) {
+                    if (line != null) {
+                        s.append(line);
+                    }
+                }
+                asciidocContent.add(s.toString());
+            }
+        }
+
+
         public void addToAsciiDocContent(String... lines) {
+            if (lines != null && lines.length > 0) {
+                addToAsciiDocContent(Arrays.asList(lines));
+            }
+        }
+
+        public void addToAsciiDocContent(List<String> lines) {
             if (lines != null) {
                 for (String line : lines) {
                     if (line != null && !line.isEmpty()) {
@@ -388,25 +449,110 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             return !asciidocContent.isEmpty() ? asciidocContent.get(asciidocContent.size() - 1) : null;
         }
 
-        private String removeLastAsciiDocContentLine() {
+
+        private String removeAsciiDocContentLastLine() {
             final String result;
             if (!asciidocContent.isEmpty()) {
                 result = asciidocContent.remove(asciidocContent.size() - 1);
             } else {
-                result = null;
+                result = "";
             }
             return result;
         }
 
         private boolean isLastElementAddedListItemTag() {
-            return Arrays.asList("* ", "- ").contains(getLastAsciiDocContentLine());
+            final String lastLine = getLastAsciiDocContentLine();
+            boolean result = false;
+            if (Utils.isNotEmpty(lastLine)) {
+                result = Arrays.asList("* ", "- ", "▪ ").contains(lastLine);
+                if (!result) {
+                    // the last line contains only an image followed by a link: very common the image is a button icon?
+                    // if needed, we also can check here the image content
+                    result = lastLine.matches("^(?i)[ \\t]*image:.*\\[.*][ \\t]*$");
+                }
+            }
+            return result;
         }
-
 
         public void removeEmptyLinesFromToAsciiDocContentUpFrom(int index) {
             while (index < asciidocContent.size() && asciidocContent.get(index).trim().isEmpty()) {
                 asciidocContent.remove(index);
             }
+        }
+
+        public void surroundAsciiDocContentWith(String value) {
+            if (Utils.isNotEmpty(value) && !asciidocContent.isEmpty()) {
+
+                // add value to begin first line
+                String s = asciidocContent.remove(0);
+                asciidocContent.add(0, value + s);
+
+                // add value to end of last line
+                s = asciidocContent.remove(asciidocContent.size() - 1);
+                asciidocContent.add(s + value);
+            }
+        }
+
+        private String convertTextForAdoc(String input) {
+            // if (logD) LogUtil.mStmt(LOGGER, "");
+            // if (logD) LogUtil.mEntry(LOGGER, "convertTextForAdoc(String input) **LF01**");
+            // if (logD) LogUtil.mStmt(LOGGER, "", "input: " + input, "");
+
+            String result = input;
+
+            if (Utils.isNotEmpty(result)) {
+
+                // replace all special characters by corresponding attributes
+                result = result //
+                    .replaceAll("[$][{]", "{dollarbracket}")
+                    .replaceAll("[|]", "{vbar}");
+
+                if (!result.startsWith("=")) { // don't process kbdKeys in headlines
+
+                    for (String key : kbdKeys) {
+                        String resultBefore = result;
+                        boolean processKey = result.matches("(?i).*" + key + ".*");
+                        if (processKey) {
+                            if (key.length() < 2) {
+                                processKey = result.matches("(?i).*[+] *" + key + "$") || result.matches("(?i).*[+] *" + key + "[ .,+].*$");
+                                if (processKey) {
+                                    result = result.replaceAll("(?i)[+] *" + key + "$", "+ kbd:[" + key + "]");
+                                    result = result.replaceAll("(?i)[+] *" + key + " ", "+ kbd:[" + key + "] ");
+                                    result = result.replaceAll("(?i)[+] *" + key + "\\.", "+ kbd:[" + key + "].");
+                                    result = result.replaceAll("(?i)[+] *" + key + ",", "+ kbd:[" + key + "],");
+                                }
+                            } else {
+                                processKey = !(result.matches("(?i).*[a-zäöüÄÖÜß§$]+ *" + key + " *[a-zäöüÄÖÜß§$].*") || result.matches("(?i).* +" + key + "[a-za-zäöüÄÖÜß§$].*")) //
+                                    || (result.matches("(?i).*(auf|ab|oben|unten|link|rechts)") && key.matches("(?i).*(auf|ab|oben|unten|link|rechts)"));
+                                if (processKey) {
+                                    result = result.replaceAll("(?i) " + key + " ", " kbd:[" + key + "] ");
+                                    result = result.replaceAll("(?i)^" + key + " ", "kbd:[" + key + "] ");
+                                    result = result.replaceAll("(?i) " + key + "$", " kbd:[" + key + "]");
+                                    result = result.replaceAll("(?i) " + key + "\\.", " kbd:[" + key + "].");
+                                    result = result.replaceAll("(?i) " + key + ",", " kbd:[" + key + "],");
+                                    result = result.replaceAll("(?i)^" + key + "$", "kbd:[" + key + "]");
+                                    result = result.replaceAll("(?i)\\( ?" + key + ", ?", "(kbd:[" + key + "], ");
+                                    result = result.replaceAll("(?i)\\( ?" + key + " ?[+]", "(kbd:[" + key + "] +");
+                                    result = result.replaceAll("(?i), ?" + key + ", ?", ", kbd:[" + key + "], ");
+                                    result = result.replaceAll("(?i), ?" + key + "\\)", ", kbd:[" + key + "])");
+                                    result = result.replaceAll("(?i)[+] ?" + key + "\\)", "+ kbd:[" + key + "])");
+                                    result = result.replaceAll("(?i)^" + key + "-Taste", "kbd:[" + key + "]-Taste");
+                                    result = result.replaceAll("(?i) " + key + "-Taste", " kbd:[" + key + "]-Taste");
+                                }
+                            }
+                        }
+
+                        // if (logD) LogUtil.mStmtf(LOGGER, "%12s %s", key, processKey?"processed":"---");
+                        if (!resultBefore.equals(result)) {
+                            // if (logD) LogUtil.mStmt(LOGGER, "", "new result: " + result, "");
+                        }
+                    }
+                }
+            }
+
+            // if (logD) LogUtil.mStmt(LOGGER, "", "result: " + result, "");
+            // if (logD) LogUtil.mExit(LOGGER, "convertTextForAdoc(String input)");
+            return result;
         }
 
     }

@@ -11,7 +11,7 @@ output:
     name: lfet-de
     title: LF-ET
     version: 2.4.0
-    start_page: die_online_hilfe_in_lfet:online_hilfe_in_lf_et.htm.adoc
+    start_page: die_online_hilfe_in_lfet:online_hilfe_in_lfet.adoc
 
     asciidoc:
       attributes:

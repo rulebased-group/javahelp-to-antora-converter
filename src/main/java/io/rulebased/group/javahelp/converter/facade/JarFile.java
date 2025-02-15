@@ -1,6 +1,7 @@
 package io.rulebased.group.javahelp.converter.facade;
 
 import io.rulebased.group.javahelp.converter.antora.exception.JavaHelpToAntoraConverterException;
+import io.rulebased.group.javahelp.converter.utils.Utils;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -88,10 +89,7 @@ public class JarFile implements InputFacade {
         String target = e.getAttributeValue("target");
 
         mapFileNameToModule.put(target, baseDir);
-        if (target.matches(".*\\.htm$")){
-            mapFileNameToModule.put(target+".adoc", baseDir);
-            mapFileNameToModule.put(target.replaceAll("\\.htm$",".adoc"), baseDir);
-        }
+        mapFileNameToModule.put(Utils.getAdocfileName(target), baseDir);
 
         for (Element child : e.getChildren("tocitem")) {
             addFileMappings(baseDir, child);
@@ -99,7 +97,8 @@ public class JarFile implements InputFacade {
     }
 
     @Override
-    public String getAntoraModuleName(String antoraFileName){
-        return mapFileNameToModule.get(antoraFileName);
+    public String getAntoraModuleName(String antoraFileName) {
+        final String result = mapFileNameToModule.get(antoraFileName);
+        return Utils.isNotEmpty(result) ? result : "";
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.14 at 16:25:11 CET" saveUser="lfhl">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.15 at 11:54:37 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="11446800829457960">
       <Title language="German" value="State"/>
@@ -52,7 +52,7 @@
     <Action uId="16479131699109421">
       <Title language="English" value="process toc entry"/>
       <UrlsOut>
-        <Url title="JHTAC_ToCEntry.lfet" url="file:///./JHTAC_ToCEntry.lfet"/>
+        <Url title="JHTAC_ToCEntry.lfet" url="file:///./ToCConverter.lfet"/>
       </UrlsOut>
     </Action>
     <Action uId="16484212669797842">

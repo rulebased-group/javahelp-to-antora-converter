@@ -15,7 +15,7 @@
     <File name="File_Appender"
       fileName="${logPath}/logging.txt" append="false">
 <!--  <PatternLayout pattern="%-21d{yyyyMMdd HH:mm:ss:SSS} | %-5p | %-44c{1} | %m%n"/>-->
-      <PatternLayout pattern="%-12d{HH:mm:ss:SSS} | %-26c{1} | %m%n" charset="UTF-8"/>
+      <PatternLayout pattern="%-12d{HH:mm:ss:SSS} | %-27c{1} | %m%n" charset="UTF-8"/>
     </File>
 
   </Appenders>

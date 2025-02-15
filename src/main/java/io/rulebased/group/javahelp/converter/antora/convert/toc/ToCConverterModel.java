@@ -2,11 +2,11 @@ package io.rulebased.group.javahelp.converter.antora.convert.toc;
 
 import io.rulebased.group.javahelp.converter.config.ConverterConfig;
 import io.rulebased.group.javahelp.converter.facade.InputFacade;
+import io.rulebased.group.javahelp.converter.utils.Utils;
 import lombok.ToString;
 import org.jdom2.Element;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,12 +31,8 @@ class ToCConverterModel {
         this.currentToCLevel = currentToCLevel;
     }
 
-    String getPageName() {
-        return tocElement.getAttributeValue("target") + ".adoc";
-    }
-
-    File getPageFile() {
-        return new File(moduleDirectory, Path.of("pages", getPageName()).toString());
+    String getAdocfileName() {
+        return Utils.getAdocfileName(tocElement.getAttributeValue("target"));
     }
 
     File getPagesDirectory() {
@@ -48,13 +44,10 @@ class ToCConverterModel {
     }
 
     String getAdocNavEntry() {
-        String pageRef = getPageName();
-
-        String result = String.format("%s xref:%s[]%s",
+        final String result = String.format("%s xref:%s[]%s",
             new String(new char[currentToCLevel]).replace("\0", "*"),
-            pageRef,
+            getAdocfileName(),
             System.lineSeparator());
-
         return result;
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.14 at 13:53:35 CET" saveUser="lfhl">
+<LFET version="LF-ET 2.3.0 (250206a)" language="English" saveDate="2025.02.15 at 04:54:26 CET" saveUser="lfhl">
   <Conditions>
     <Condition uId="16485860137989812">
       <Title language="English" value="State"/>
@@ -23,7 +23,7 @@
       <Title language="English" value="start element is defined"/>
     </Condition>
     <Condition uId="11443124863866955">
-      <Title language="English" value="contains current element child elements"/>
+      <Title language="English" value="contains start element child elements"/>
     </Condition>
     <Condition uId="16485942564463023">
       <Title language="English" value="next element exists"/>
@@ -188,7 +188,7 @@
     <Action uId="16485956678824562">
       <Title language="English" value="extract anchor"/>
       <UrlsOut>
-        <Url title="ConvertAnchor.lfet" url="file:///./ConvertAnchor.lfet"/>
+        <Url title="AnchorConverter" url="file:///./AnchorConverter.lfet"/>
       </UrlsOut>
     </Action>
     <Action uId="17393889246208188">
@@ -218,17 +218,9 @@
     <Action uId="16485912214671249">
       <Title language="English" value="extract text"/>
       <ActionOccurrences>
-        <ActionOccurrence uId="16485940312062499">
-          <Symbol language="English" value="*"/>
-          <Title language="English" value="surround with *"/>
-        </ActionOccurrence>
         <ActionOccurrence uId="16501357939321160">
           <Symbol language="English" value="="/>
           <Title language="English" value="start with '=' multiply with current header level"/>
-        </ActionOccurrence>
-        <ActionOccurrence uId="16485940395842504">
-          <Symbol language="English" value="_"/>
-          <Title language="English" value="surround with _"/>
         </ActionOccurrence>
         <ActionOccurrence uId="16501358383911915">
           <Symbol language="English" value="NONE"/>
@@ -275,7 +267,7 @@
       </ActionOccurrences>
     </Action>
   </Actions>
-  <Rules lastId="127">
+  <Rules lastId="141">
     <Rule id="54">
       <ConditionOccurrenceLink link="16500619473137147"/>
       <ActionOccurrenceLink link="16500620213877336"/>
@@ -393,23 +385,25 @@
       <ConditionLink link="16506650492536395" conditionState="false"/>
       <ConditionOccurrenceLink link="16506653618226976"/>
     </Rule>
-    <Rule id="77">
+    <Rule id="140">
       <ConditionOccurrenceLink link="16485860210679875"/>
       <ActionOccurrenceLink link="16485862497250205"/>
       <ConditionLink link="16485942564463023" conditionState="true"/>
       <ConditionOccurrenceLink link="16485911746460979"/>
-      <ActionOccurrenceLink link="16485940312062499"/>
       <ConditionLink link="16506650492536395" conditionState="false"/>
       <ConditionOccurrenceLink link="16506653618226976"/>
+      <ActionLink link="16506643382526094"/>
+      <ConditionLink link="17395910552578756" conditionState="true"/>
     </Rule>
-    <Rule id="78">
+    <Rule id="141">
       <ConditionOccurrenceLink link="16485860210679875"/>
       <ActionOccurrenceLink link="16485862497250205"/>
       <ConditionLink link="16485942564463023" conditionState="true"/>
       <ConditionOccurrenceLink link="16485940130852195"/>
-      <ActionOccurrenceLink link="16485940395842504"/>
       <ConditionLink link="16506650492536395" conditionState="false"/>
       <ConditionOccurrenceLink link="16506653618226976"/>
+      <ActionLink link="16506643382526094"/>
+      <ConditionLink link="17395910552578756" conditionState="true"/>
     </Rule>
     <Rule id="79">
       <ConditionOccurrenceLink link="16485860210679875"/>
