@@ -158,9 +158,8 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public void doExtractAnchor(Model model) {
-        // if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor(...)");
-        // if (logD) LogUtil.mStmt(LOGGER, "model=" + model);
-        // if (logD) LogUtil.mStmt(LOGGER, "model.inputFacade=" + model.inputFacade);
+        if (logD) LogUtil.mStmt(LOGGER, "");
+        if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor_entry(...)");
 
         String anchor = anchorConverter.convert((Element) model.currentChildElement, model.inputFacade);
 
@@ -173,7 +172,9 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             }
         }
 
-        // if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor(...)");
+        if (logD) LogUtil.mStmt(LOGGER, "");
+        if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor_exit(...)");
+        if (logD) LogUtil.mStmt(LOGGER, "");
     }
 
     @Override
@@ -415,13 +416,28 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         public void appendToAsciiDocContentLastLine(List<String> lines) {
             if (lines != null && !lines.isEmpty()) {
-                StringBuilder s = new StringBuilder(removeAsciiDocContentLastLine());
+                if (logD) LogUtil.mEntry(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
+
+                String lastLine = removeAsciiDocContentLastLine();
+                if (logD) LogUtil.mStmt(LOGGER, "lastLine(bef): " + lastLine);
+
+                final StringBuilder s = new StringBuilder(lastLine);
+
                 for (String line : lines) {
                     if (line != null) {
+                        if (lastLine.endsWith("]") && line.matches("^[_*].*")) {
+                            s.append(" ");
+                        }
                         s.append(line);
+                        lastLine = line;
                     }
                 }
-                asciidocContent.add(s.toString());
+
+                lastLine = s.toString();
+                asciidocContent.add(lastLine);
+
+                if (logD) LogUtil.mStmt(LOGGER, "lastLine(aft): " + lastLine);
+                if (logD) LogUtil.mExit(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
             }
         }
 
@@ -482,6 +498,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         public void surroundAsciiDocContentWith(String value) {
             if (Utils.isNotEmpty(value) && !asciidocContent.isEmpty()) {
+                if (logD) LogUtil.mEntry(LOGGER, "surroundAsciiDocContentWith(String value)");
 
                 // add value to begin first line
                 String s = asciidocContent.remove(0);
@@ -489,7 +506,14 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
                 // add value to end of last line
                 s = asciidocContent.remove(asciidocContent.size() - 1);
-                asciidocContent.add(s + value);
+                asciidocContent.add(String.format("%s%s%s" //
+                    , s //
+                    , s.endsWith("]") ? " " : "" // dont't add a formatting character directly after e.g. an anchor text
+                    , value //
+                ));
+
+                logAsciiDocContent();
+                if (logD) LogUtil.mExit(LOGGER, "surroundAsciiDocContentWith(String value)");
             }
         }
 
@@ -553,6 +577,16 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             // if (logD) LogUtil.mStmt(LOGGER, "", "result: " + result, "");
             // if (logD) LogUtil.mExit(LOGGER, "convertTextForAdoc(String input)");
             return result;
+        }
+
+        private void logAsciiDocContent() {
+            if (logD) LogUtil.mEntry(LOGGER, "logAsciiDocContent()");
+
+            for (String s : asciidocContent) {
+                if (logD) LogUtil.mStmt(LOGGER, s);
+            }
+
+            if (logD) LogUtil.mExit(LOGGER, "logAsciiDocContent()");
         }
 
     }
