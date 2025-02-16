@@ -151,8 +151,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
 
     @Override
     public void doCreateXrefLink(AnchorConverterModel model) {
-        if (logD) LogUtil.mStmt(LOGGER, "");
-        if (logD) LogUtil.mEntry(LOGGER, "doCreateXrefLink(AnchorConverterModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "");
+        // if (logD) LogUtil.mEntry(LOGGER, "doCreateXrefLink(AnchorConverterModel model)");
 
         String anchorPrefix ="";
         String anchorTarget = model.anchorTarget;
@@ -194,8 +194,8 @@ class AnchorConverter implements AnchorConverterIFace<AnchorConverterModel>, IAn
 
         model.asciidoc.add(result);
 
-        if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
-        if (logD) LogUtil.mExit(LOGGER, "doCreateXrefLink(AnchorConverterModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        // if (logD) LogUtil.mExit(LOGGER, "doCreateXrefLink(AnchorConverterModel model)");
     }
 
     @Override

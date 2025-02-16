@@ -47,7 +47,9 @@ class HtmlToAsciiDocConverterTest implements ILfetLogging {
 //        , "sonstigetasten1.htm" //
 //        , "tastenkombinationen_fr_texte.htm" //
 //        , "prog_gen_navigationindensourcecodes.htm" //
-        ,"natural_generierungsparameter.htm" //
+//        , "natural_generierungsparameter.htm" //
+//        , "v211.htm" //
+        , "definition1.htm" //
     })
     void htmPages(String htmFileName) {
         if (Utils.isNotEmpty(htmFileName)) {

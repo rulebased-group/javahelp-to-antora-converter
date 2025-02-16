@@ -61,7 +61,20 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public boolean isSkipElement(Model model) {
-        return model.currentChildElement.attr("class").equals("lfhtml-title-01") || model.currentChildElement.attr("class").equals("lfhtml-title-02");
+        // if (logD) LogUtil.mEntry(LOGGER, "isSkipElement(HtmlToAsciiDocCModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "model.currentChildElement=" + model.currentChildElement);
+
+        boolean result = false;
+        if (model.currentChildElement.attr("class").matches(".*title.*")) {
+            result = ++model.countTitleElements < 2;
+            // if (logD) LogUtil.mStmt(LOGGER, ">>> TITLE #" + model.countTitleElements);
+            // if (logD) LogUtil.mStmt(LOGGER, "model.currentChildElement.attr(\"text\")=" + model.currentChildElement.attr("text"));
+            model.logAsciiDocContent();
+        }
+
+        // if (logD) LogUtil.mStmt(LOGGER, "result=" + result);
+        // if (logD) LogUtil.mExit(LOGGER, "isSkipElement(HtmlToAsciiDocCModel model)");
+        return result;
     }
 
     @Override
@@ -158,8 +171,8 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public void doExtractAnchor(Model model) {
-        if (logD) LogUtil.mStmt(LOGGER, "");
-        if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor_entry(...)");
+        // if (logD) LogUtil.mStmt(LOGGER, "");
+        // if (logD) LogUtil.mEntry(LOGGER, "doExtractAnchor_entry(...)");
 
         String anchor = anchorConverter.convert((Element) model.currentChildElement, model.inputFacade);
 
@@ -172,13 +185,16 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             }
         }
 
-        if (logD) LogUtil.mStmt(LOGGER, "");
-        if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor_exit(...)");
-        if (logD) LogUtil.mStmt(LOGGER, "");
+        // if (logD) LogUtil.mStmt(LOGGER, "");
+        // if (logD) LogUtil.mExit(LOGGER, "doExtractAnchor_exit(...)");
+        // if (logD) LogUtil.mStmt(LOGGER, "");
     }
 
     @Override
     public void doAddToAdocContent(AddToAdocContent arg0, Model model) {
+        // if (logD) LogUtil.mEntry(LOGGER, "doAddToAdocContent(HtmlToAsciiDocConverterIFAddToAdocContent arg0, HtmlToAsciiDocCModel model)");
+        // if (logD) LogUtil.mStmt(LOGGER, "model.currentChildElement=" + model.currentChildElement);
+
         switch (arg0) {
             case $EQUALEQUALEQUAL: {
                 // Here: begin of new table
@@ -200,8 +216,11 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 break;
             }
             default: {
+                // if (logD) LogUtil.mStmt(LOGGER, "default");
             }
         }
+
+        // if (logD) LogUtil.mExit(LOGGER, "doAddToAdocContent(HtmlToAsciiDocConverterIFAddToAdocContent arg0, HtmlToAsciiDocCModel model)");
     }
 
     @Override
@@ -210,10 +229,11 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
         // if (logD) LogUtil.mStmt(LOGGER, "model.currentChildElement=" + model.currentChildElement);
 
         Model processElementModel = new Model((Element) model.currentChildElement, model.currentHeaderLevel);
-        processElementModel.inputFacade = model.inputFacade;
-        processElementModel.tableHeader = model.tableHeader;
-        processElementModel.tableColumnCount = model.tableColumnCount;
-        processElementModel.tableEntries1stColumn.addAll(model.tableEntries1stColumn);
+        processElementModel.getAttributes(model);
+        // processElementModel.inputFacade = model.inputFacade;
+        // processElementModel.tableHeader = model.tableHeader;
+        // processElementModel.tableColumnCount = model.tableColumnCount;
+        // processElementModel.tableEntries1stColumn.addAll(model.tableEntries1stColumn);
 
         rulesEngine.execute(this, processElementModel);
 
@@ -240,18 +260,22 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             }
         }
 
-        model.tableHeader = processElementModel.tableHeader;
-        model.tableColumnCount = processElementModel.tableColumnCount;
-        model.tableEntries1stColumn.addAll(processElementModel.tableEntries1stColumn);
+        model.getAttributes(processElementModel);
+        // model.tableHeader = processElementModel.tableHeader;
+        // model.tableColumnCount = processElementModel.tableColumnCount;
+        // model.tableEntries1stColumn.addAll(processElementModel.tableEntries1stColumn);
 
         // if (logD) LogUtil.mExit(LOGGER, "doProcessChildElements(" + model.currentChildElement.nodeName() + ")");
     }
 
     @Override
     public void doExtractText(ExtractText arg0, Model model) {
+        // if (logD) LogUtil.mEntry(LOGGER, "doExtractText(HtmlToAsciiDocConverterIFExtractText arg0, HtmlToAsciiDocCModel model)");
+
+        String value = "";
+
         switch (arg0) {
             case $EQUAL: {
-                String value;
                 if (model.currentChildElement instanceof TextNode) {
                     value = ((TextNode) model.currentChildElement).text();
                 } else {
@@ -262,9 +286,9 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             }
             case $NONE: {
                 if (model.currentChildElement instanceof TextNode) {
-                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(((TextNode) model.currentChildElement).text()));
+                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(value = ((TextNode) model.currentChildElement).text()));
                 } else {
-                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(((Element) model.currentChildElement).text()));
+                    model.appendToAsciiDocContentLastLine(model.convertTextForAdoc(value = ((Element) model.currentChildElement).text()));
                 }
                 break;
             }
@@ -325,7 +349,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 break;
             }
             default: {
-                String text = model.convertTextForAdoc(((Element) model.currentChildElement).text().trim());
+                String text = model.convertTextForAdoc(value = ((Element) model.currentChildElement).text().trim());
                 if (!text.isEmpty()) {
                     model.addToAsciiDocContent(arg0.getSymbol() + text + arg0.getSymbol());
                 }
@@ -350,7 +374,8 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
     @Override
     public void doTrace(String dtName, String version, int rules, int rule, Model model) {
-        lfetLogging.trace(dtName, version, rule, rules, model);
+        // lfetLogging.trace(dtName, version, rule, rules, model);
+        // if (logD) LogUtil.mStmt(LOGGER, "", String.format("*** %s rule %s ***", dtName, rule), "");
     }
 
     // @ToString
@@ -364,10 +389,19 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
         private final List<String> asciidocContent = new ArrayList<>(100);
         InputFacade inputFacade;
 
+        private int countTitleElements;
         private boolean tableHeader;
         private int tableColumnCount;
         private int tableBorder;
         private final Set<String> tableEntries1stColumn = new HashSet<>();
+
+        private void getAttributes(Model model) {
+            this.countTitleElements = model.countTitleElements;
+            this.inputFacade = model.inputFacade;
+            this.tableHeader = model.tableHeader;
+            this.tableColumnCount = model.tableColumnCount;
+            this.tableEntries1stColumn.addAll(model.tableEntries1stColumn);
+        }
 
         final private static List<String> kbdKeys = Arrays.asList( //
             "STRG", "CTRL" //
@@ -393,6 +427,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
             this.currentHeaderLevel = currentHeaderLevel;
         }
 
+
         /**
          * The german user manual often used tables as lists with no borders, no grid and a single
          * list bullet point character (e.g. '-') in the first column
@@ -416,10 +451,10 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         public void appendToAsciiDocContentLastLine(List<String> lines) {
             if (lines != null && !lines.isEmpty()) {
-                if (logD) LogUtil.mEntry(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
+                // if (logD) LogUtil.mEntry(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
 
                 String lastLine = removeAsciiDocContentLastLine();
-                if (logD) LogUtil.mStmt(LOGGER, "lastLine(bef): " + lastLine);
+                // if (logD) LogUtil.mStmt(LOGGER, "lastLine(bef): " + lastLine);
 
                 final StringBuilder s = new StringBuilder(lastLine);
 
@@ -436,8 +471,8 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 lastLine = s.toString();
                 asciidocContent.add(lastLine);
 
-                if (logD) LogUtil.mStmt(LOGGER, "lastLine(aft): " + lastLine);
-                if (logD) LogUtil.mExit(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
+                // if (logD) LogUtil.mStmt(LOGGER, "lastLine(aft): " + lastLine);
+                // if (logD) LogUtil.mExit(LOGGER, "appendToAsciiDocContentLastLine(List<String> lines)");
             }
         }
 
@@ -450,14 +485,31 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         public void addToAsciiDocContent(List<String> lines) {
             if (lines != null) {
+                // if (logD) LogUtil.mEntry(LOGGER, "addToAsciiDocContent(List<String> lines)");
+                logAsciiDocContent();
+
                 for (String line : lines) {
-                    if (line != null && !line.isEmpty()) {
-                        asciidocContent.add(line);
-                    } else if (!asciidocContent.isEmpty() && !asciidocContent.get(asciidocContent.size() - 1).isEmpty()) {
-                        // just avoid multiple empty lines
-                        asciidocContent.add("");
+                    // if (logD) LogUtil.mStmt(LOGGER, "add: " + line);
+                    if (Utils.isNotEmpty(line) //
+                        && asciidocContent.size() == 2 //
+                        && asciidocContent.get(0).startsWith("=") //
+                        && Utils.isEmpty(asciidocContent.get(1)) //
+                        && asciidocContent.get(0).toLowerCase().contains(line.toLowerCase().replaceAll("kbd:\\[.*", ""))
+                    ) {
+                        if (logD) LogUtil.mStmt(LOGGER, "");
+                        if (logD) LogUtil.mStmt(LOGGER, "ignore duplicate title: " + asciidocContent.get(0));
+                        if (logD) LogUtil.mStmt(LOGGER, "                          " + line);
+                    } else {
+                        if (line != null && !line.isEmpty()) {
+                            asciidocContent.add(line);
+                        } else if (!asciidocContent.isEmpty() && !asciidocContent.get(asciidocContent.size() - 1).isEmpty()) {
+                            // just avoid multiple empty lines
+                            asciidocContent.add("");
+                        }
                     }
                 }
+
+                // if (logD) LogUtil.mExit(LOGGER, "addToAsciiDocContent(List<String> lines)");
             }
         }
 
@@ -498,7 +550,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
 
         public void surroundAsciiDocContentWith(String value) {
             if (Utils.isNotEmpty(value) && !asciidocContent.isEmpty()) {
-                if (logD) LogUtil.mEntry(LOGGER, "surroundAsciiDocContentWith(String value)");
+                // if (logD) LogUtil.mEntry(LOGGER, "surroundAsciiDocContentWith(String value)");
 
                 // add value to begin first line
                 String s = asciidocContent.remove(0);
@@ -513,7 +565,7 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
                 ));
 
                 logAsciiDocContent();
-                if (logD) LogUtil.mExit(LOGGER, "surroundAsciiDocContentWith(String value)");
+                // if (logD) LogUtil.mExit(LOGGER, "surroundAsciiDocContentWith(String value)");
             }
         }
 
@@ -580,13 +632,13 @@ class HtmlToAsciiDocConverter implements HtmlToAsciiDocConverterIFace<HtmlToAsci
         }
 
         private void logAsciiDocContent() {
-            if (logD) LogUtil.mEntry(LOGGER, "logAsciiDocContent()");
+            // if (logD) LogUtil.mEntry(LOGGER, "logAsciiDocContent()");
 
             for (String s : asciidocContent) {
-                if (logD) LogUtil.mStmt(LOGGER, s);
+                // if (logD) LogUtil.mStmt(LOGGER, s);
             }
 
-            if (logD) LogUtil.mExit(LOGGER, "logAsciiDocContent()");
+            // if (logD) LogUtil.mExit(LOGGER, "logAsciiDocContent()");
         }
 
     }
